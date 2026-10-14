@@ -1,0 +1,1015 @@
+{
+  "_说明": "演示数据：真实打分文件不存在时自动展示。任何一条真实打分写入后，这份数据自动失效。",
+  "records": {
+    "d001": {
+      "dishId": "d001",
+      "stallId": "c1s1",
+      "canteenId": "c1",
+      "dishName": "牛肉拉面",
+      "stallName": "金冠",
+      "canteenName": "金冠",
+      "sum": 21,
+      "votes": 5
+    },
+    "d002": {
+      "dishId": "d002",
+      "stallId": "c1s1",
+      "canteenId": "c1",
+      "dishName": "牛肉板面",
+      "stallName": "金冠",
+      "canteenName": "金冠",
+      "sum": 23,
+      "votes": 6
+    },
+    "d003": {
+      "dishId": "d003",
+      "stallId": "c1s1",
+      "canteenId": "c1",
+      "dishName": "牛肉炒面",
+      "stallName": "金冠",
+      "canteenName": "金冠",
+      "sum": 28,
+      "votes": 8
+    },
+    "d004": {
+      "dishId": "d004",
+      "stallId": "c1s1",
+      "canteenId": "c1",
+      "dishName": "红烧牛肉盖饭",
+      "stallName": "金冠",
+      "canteenName": "金冠",
+      "sum": 8,
+      "votes": 2
+    },
+    "d100": {
+      "dishId": "d100",
+      "stallId": "c2s1",
+      "canteenId": "c2",
+      "dishName": "招牌花甲粉",
+      "stallName": "花甲粉 · 螺蛳粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 21,
+      "votes": 5
+    },
+    "d101": {
+      "dishId": "d101",
+      "stallId": "c2s1",
+      "canteenId": "c2",
+      "dishName": "鲜花甲粉",
+      "stallName": "花甲粉 · 螺蛳粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 29,
+      "votes": 6
+    },
+    "d102": {
+      "dishId": "d102",
+      "stallId": "c2s1",
+      "canteenId": "c2",
+      "dishName": "金汤花甲粉",
+      "stallName": "花甲粉 · 螺蛳粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 34,
+      "votes": 7
+    },
+    "d103": {
+      "dishId": "d103",
+      "stallId": "c2s1",
+      "canteenId": "c2",
+      "dishName": "藤椒花甲粉",
+      "stallName": "花甲粉 · 螺蛳粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 37,
+      "votes": 9
+    },
+    "d104": {
+      "dishId": "d104",
+      "stallId": "c2s1",
+      "canteenId": "c2",
+      "dishName": "黏糊麻酱螺蛳粉",
+      "stallName": "花甲粉 · 螺蛳粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 29,
+      "votes": 8
+    },
+    "d105": {
+      "dishId": "d105",
+      "stallId": "c2s1",
+      "canteenId": "c2",
+      "dishName": "招牌螺蛳粉",
+      "stallName": "花甲粉 · 螺蛳粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 30,
+      "votes": 9
+    },
+    "d106": {
+      "dishId": "d106",
+      "stallId": "c2s1",
+      "canteenId": "c2",
+      "dishName": "网红拉丝炸蛋螺蛳粉",
+      "stallName": "花甲粉 · 螺蛳粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 3,
+      "votes": 1
+    },
+    "d130": {
+      "dishId": "d130",
+      "stallId": "c2s2",
+      "canteenId": "c2",
+      "dishName": "牛肉包",
+      "stallName": "手工鲜肉小笼包",
+      "canteenName": "小张餐厅二楼",
+      "sum": 23,
+      "votes": 6
+    },
+    "d131": {
+      "dishId": "d131",
+      "stallId": "c2s2",
+      "canteenId": "c2",
+      "dishName": "酱肉包",
+      "stallName": "手工鲜肉小笼包",
+      "canteenName": "小张餐厅二楼",
+      "sum": 16,
+      "votes": 5
+    },
+    "d132": {
+      "dishId": "d132",
+      "stallId": "c2s2",
+      "canteenId": "c2",
+      "dishName": "小猪奶黄包",
+      "stallName": "手工鲜肉小笼包",
+      "canteenName": "小张餐厅二楼",
+      "sum": 25,
+      "votes": 5
+    },
+    "d133": {
+      "dishId": "d133",
+      "stallId": "c2s2",
+      "canteenId": "c2",
+      "dishName": "奥尔良鸡肉包",
+      "stallName": "手工鲜肉小笼包",
+      "canteenName": "小张餐厅二楼",
+      "sum": 30,
+      "votes": 7
+    },
+    "d134": {
+      "dishId": "d134",
+      "stallId": "c2s2",
+      "canteenId": "c2",
+      "dishName": "鲜肉包",
+      "stallName": "手工鲜肉小笼包",
+      "canteenName": "小张餐厅二楼",
+      "sum": 26,
+      "votes": 7
+    },
+    "d135": {
+      "dishId": "d135",
+      "stallId": "c2s2",
+      "canteenId": "c2",
+      "dishName": "梅干菜肉包",
+      "stallName": "手工鲜肉小笼包",
+      "canteenName": "小张餐厅二楼",
+      "sum": 33,
+      "votes": 8
+    },
+    "d136": {
+      "dishId": "d136",
+      "stallId": "c2s2",
+      "canteenId": "c2",
+      "dishName": "肉沫酸豆角包",
+      "stallName": "手工鲜肉小笼包",
+      "canteenName": "小张餐厅二楼",
+      "sum": 10,
+      "votes": 2
+    },
+    "d160": {
+      "dishId": "d160",
+      "stallId": "c2s3",
+      "canteenId": "c2",
+      "dishName": "香辣大盘鸡拌面",
+      "stallName": "小马哥焖肉饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 33,
+      "votes": 8
+    },
+    "d161": {
+      "dishId": "d161",
+      "stallId": "c2s3",
+      "canteenId": "c2",
+      "dishName": "香辣大盘鸡拌饭",
+      "stallName": "小马哥焖肉饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 40,
+      "votes": 9
+    },
+    "d162": {
+      "dishId": "d162",
+      "stallId": "c2s3",
+      "canteenId": "c2",
+      "dishName": "酱香大盘鸡拌面",
+      "stallName": "小马哥焖肉饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 21,
+      "votes": 5
+    },
+    "d163": {
+      "dishId": "d163",
+      "stallId": "c2s3",
+      "canteenId": "c2",
+      "dishName": "酱香大盘鸡拌饭",
+      "stallName": "小马哥焖肉饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 25,
+      "votes": 6
+    },
+    "d164": {
+      "dishId": "d164",
+      "stallId": "c2s3",
+      "canteenId": "c2",
+      "dishName": "干锅土豆片",
+      "stallName": "小马哥焖肉饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 20,
+      "votes": 6
+    },
+    "d165": {
+      "dishId": "d165",
+      "stallId": "c2s3",
+      "canteenId": "c2",
+      "dishName": "干锅素什锦",
+      "stallName": "小马哥焖肉饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 37,
+      "votes": 8
+    },
+    "d166": {
+      "dishId": "d166",
+      "stallId": "c2s3",
+      "canteenId": "c2",
+      "dishName": "干锅方便面",
+      "stallName": "小马哥焖肉饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 8,
+      "votes": 2
+    },
+    "d190": {
+      "dishId": "d190",
+      "stallId": "c2s4",
+      "canteenId": "c2",
+      "dishName": "川湘小炒肉",
+      "stallName": "小爆炒荔枝鸡",
+      "canteenName": "小张餐厅二楼",
+      "sum": 19,
+      "votes": 6
+    },
+    "d191": {
+      "dishId": "d191",
+      "stallId": "c2s4",
+      "canteenId": "c2",
+      "dishName": "腊肉炒烟笋",
+      "stallName": "小爆炒荔枝鸡",
+      "canteenName": "小张餐厅二楼",
+      "sum": 33,
+      "votes": 8
+    },
+    "d192": {
+      "dishId": "d192",
+      "stallId": "c2s4",
+      "canteenId": "c2",
+      "dishName": "十八秒猪肝",
+      "stallName": "小爆炒荔枝鸡",
+      "canteenName": "小张餐厅二楼",
+      "sum": 22,
+      "votes": 5
+    },
+    "d193": {
+      "dishId": "d193",
+      "stallId": "c2s4",
+      "canteenId": "c2",
+      "dishName": "辣椒炒肉",
+      "stallName": "小爆炒荔枝鸡",
+      "canteenName": "小张餐厅二楼",
+      "sum": 23,
+      "votes": 6
+    },
+    "d194": {
+      "dishId": "d194",
+      "stallId": "c2s4",
+      "canteenId": "c2",
+      "dishName": "孜然小炒肉",
+      "stallName": "小爆炒荔枝鸡",
+      "canteenName": "小张餐厅二楼",
+      "sum": 34,
+      "votes": 8
+    },
+    "d195": {
+      "dishId": "d195",
+      "stallId": "c2s4",
+      "canteenId": "c2",
+      "dishName": "酸辣藕带",
+      "stallName": "小爆炒荔枝鸡",
+      "canteenName": "小张餐厅二楼",
+      "sum": 30,
+      "votes": 7
+    },
+    "d196": {
+      "dishId": "d196",
+      "stallId": "c2s4",
+      "canteenId": "c2",
+      "dishName": "手撕包菜",
+      "stallName": "小爆炒荔枝鸡",
+      "canteenName": "小张餐厅二楼",
+      "sum": 8,
+      "votes": 2
+    },
+    "d220": {
+      "dishId": "d220",
+      "stallId": "c2s5",
+      "canteenId": "c2",
+      "dishName": "蔬菜沙拉减脂饭",
+      "stallName": "品味韩餐",
+      "canteenName": "小张餐厅二楼",
+      "sum": 25,
+      "votes": 6
+    },
+    "d221": {
+      "dishId": "d221",
+      "stallId": "c2s5",
+      "canteenId": "c2",
+      "dishName": "卫龙烤肉拌饭",
+      "stallName": "品味韩餐",
+      "canteenName": "小张餐厅二楼",
+      "sum": 27,
+      "votes": 7
+    },
+    "d222": {
+      "dishId": "d222",
+      "stallId": "c2s5",
+      "canteenId": "c2",
+      "dishName": "金针菇烤肉拌饭",
+      "stallName": "品味韩餐",
+      "canteenName": "小张餐厅二楼",
+      "sum": 39,
+      "votes": 8
+    },
+    "d223": {
+      "dishId": "d223",
+      "stallId": "c2s5",
+      "canteenId": "c2",
+      "dishName": "土豆丝烤肉拌饭",
+      "stallName": "品味韩餐",
+      "canteenName": "小张餐厅二楼",
+      "sum": 28,
+      "votes": 7
+    },
+    "d224": {
+      "dishId": "d224",
+      "stallId": "c2s5",
+      "canteenId": "c2",
+      "dishName": "辣白菜烤肉拌饭",
+      "stallName": "品味韩餐",
+      "canteenName": "小张餐厅二楼",
+      "sum": 17,
+      "votes": 5
+    },
+    "d225": {
+      "dishId": "d225",
+      "stallId": "c2s5",
+      "canteenId": "c2",
+      "dishName": "杏鲍菇烤肉拌饭",
+      "stallName": "品味韩餐",
+      "canteenName": "小张餐厅二楼",
+      "sum": 18,
+      "votes": 5
+    },
+    "d226": {
+      "dishId": "d226",
+      "stallId": "c2s5",
+      "canteenId": "c2",
+      "dishName": "奥尔良烤肉拌饭",
+      "stallName": "品味韩餐",
+      "canteenName": "小张餐厅二楼",
+      "sum": 4,
+      "votes": 1
+    },
+    "d270": {
+      "dishId": "d270",
+      "stallId": "c2s6",
+      "canteenId": "c2",
+      "dishName": "招牌烤鸭饭（小份）",
+      "stallName": "SAK 烤鸭饭 · 猪肘饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 28,
+      "votes": 8
+    },
+    "d271": {
+      "dishId": "d271",
+      "stallId": "c2s6",
+      "canteenId": "c2",
+      "dishName": "招牌烤鸭饭（大份）",
+      "stallName": "SAK 烤鸭饭 · 猪肘饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 24,
+      "votes": 7
+    },
+    "d272": {
+      "dishId": "d272",
+      "stallId": "c2s6",
+      "canteenId": "c2",
+      "dishName": "猪肘饭",
+      "stallName": "SAK 烤鸭饭 · 猪肘饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 21,
+      "votes": 5
+    },
+    "d273": {
+      "dishId": "d273",
+      "stallId": "c2s6",
+      "canteenId": "c2",
+      "dishName": "照烧鸡腿饭",
+      "stallName": "SAK 烤鸭饭 · 猪肘饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 30,
+      "votes": 9
+    },
+    "d274": {
+      "dishId": "d274",
+      "stallId": "c2s6",
+      "canteenId": "c2",
+      "dishName": "整只烤鸭",
+      "stallName": "SAK 烤鸭饭 · 猪肘饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 9,
+      "votes": 3
+    },
+    "d280": {
+      "dishId": "d280",
+      "stallId": "c2s7",
+      "canteenId": "c2",
+      "dishName": "招牌鸡肉炒米粉",
+      "stallName": "抖喜新疆炒米粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 29,
+      "votes": 7
+    },
+    "d281": {
+      "dishId": "d281",
+      "stallId": "c2s7",
+      "canteenId": "c2",
+      "dishName": "火腿肠炒米粉",
+      "stallName": "抖喜新疆炒米粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 22,
+      "votes": 6
+    },
+    "d282": {
+      "dishId": "d282",
+      "stallId": "c2s7",
+      "canteenId": "c2",
+      "dishName": "鱼排蟹排炒米粉",
+      "stallName": "抖喜新疆炒米粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 20,
+      "votes": 5
+    },
+    "d283": {
+      "dishId": "d283",
+      "stallId": "c2s7",
+      "canteenId": "c2",
+      "dishName": "纯素多菜炒米粉",
+      "stallName": "抖喜新疆炒米粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 28,
+      "votes": 8
+    },
+    "d284": {
+      "dishId": "d284",
+      "stallId": "c2s7",
+      "canteenId": "c2",
+      "dishName": "酸菜鸡肉炒米粉",
+      "stallName": "抖喜新疆炒米粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 21,
+      "votes": 6
+    },
+    "d285": {
+      "dishId": "d285",
+      "stallId": "c2s7",
+      "canteenId": "c2",
+      "dishName": "鸡肉多菜炒米粉",
+      "stallName": "抖喜新疆炒米粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 30,
+      "votes": 9
+    },
+    "d286": {
+      "dishId": "d286",
+      "stallId": "c2s7",
+      "canteenId": "c2",
+      "dishName": "酸菜牛肉炒米粉",
+      "stallName": "抖喜新疆炒米粉",
+      "canteenName": "小张餐厅二楼",
+      "sum": 8,
+      "votes": 2
+    },
+    "d310": {
+      "dishId": "d310",
+      "stallId": "c2s8",
+      "canteenId": "c2",
+      "dishName": "酸汤砂锅面",
+      "stallName": "高师傅面食",
+      "canteenName": "小张餐厅二楼",
+      "sum": 40,
+      "votes": 9
+    },
+    "d311": {
+      "dishId": "d311",
+      "stallId": "c2s8",
+      "canteenId": "c2",
+      "dishName": "招牌肉卤面",
+      "stallName": "高师傅面食",
+      "canteenName": "小张餐厅二楼",
+      "sum": 35,
+      "votes": 7
+    },
+    "d312": {
+      "dishId": "d312",
+      "stallId": "c2s8",
+      "canteenId": "c2",
+      "dishName": "原味鸡汤面",
+      "stallName": "高师傅面食",
+      "canteenName": "小张餐厅二楼",
+      "sum": 27,
+      "votes": 8
+    },
+    "d313": {
+      "dishId": "d313",
+      "stallId": "c2s8",
+      "canteenId": "c2",
+      "dishName": "酸辣鸡汤面",
+      "stallName": "高师傅面食",
+      "canteenName": "小张餐厅二楼",
+      "sum": 20,
+      "votes": 6
+    },
+    "d314": {
+      "dishId": "d314",
+      "stallId": "c2s8",
+      "canteenId": "c2",
+      "dishName": "什锦砂锅面",
+      "stallName": "高师傅面食",
+      "canteenName": "小张餐厅二楼",
+      "sum": 31,
+      "votes": 8
+    },
+    "d315": {
+      "dishId": "d315",
+      "stallId": "c2s8",
+      "canteenId": "c2",
+      "dishName": "椒麻鸭块面",
+      "stallName": "高师傅面食",
+      "canteenName": "小张餐厅二楼",
+      "sum": 29,
+      "votes": 6
+    },
+    "d316": {
+      "dishId": "d316",
+      "stallId": "c2s8",
+      "canteenId": "c2",
+      "dishName": "什锦酸汤面",
+      "stallName": "高师傅面食",
+      "canteenName": "小张餐厅二楼",
+      "sum": 7,
+      "votes": 2
+    },
+    "d340": {
+      "dishId": "d340",
+      "stallId": "c2s9",
+      "canteenId": "c2",
+      "dishName": "酱肉米线",
+      "stallName": "米线 · 夹馍",
+      "canteenName": "小张餐厅二楼",
+      "sum": 25,
+      "votes": 8
+    },
+    "d341": {
+      "dishId": "d341",
+      "stallId": "c2s9",
+      "canteenId": "c2",
+      "dishName": "酱肉米线 + 刀削面",
+      "stallName": "米线 · 夹馍",
+      "canteenName": "小张餐厅二楼",
+      "sum": 19,
+      "votes": 6
+    },
+    "d342": {
+      "dishId": "d342",
+      "stallId": "c2s9",
+      "canteenId": "c2",
+      "dishName": "酱肉米线 + 方便面",
+      "stallName": "米线 · 夹馍",
+      "canteenName": "小张餐厅二楼",
+      "sum": 32,
+      "votes": 7
+    },
+    "d343": {
+      "dishId": "d343",
+      "stallId": "c2s9",
+      "canteenId": "c2",
+      "dishName": "麻辣豆干米线",
+      "stallName": "米线 · 夹馍",
+      "canteenName": "小张餐厅二楼",
+      "sum": 20,
+      "votes": 5
+    },
+    "d344": {
+      "dishId": "d344",
+      "stallId": "c2s9",
+      "canteenId": "c2",
+      "dishName": "麻辣豆干米线 + 刀削面",
+      "stallName": "米线 · 夹馍",
+      "canteenName": "小张餐厅二楼",
+      "sum": 35,
+      "votes": 9
+    },
+    "d345": {
+      "dishId": "d345",
+      "stallId": "c2s9",
+      "canteenId": "c2",
+      "dishName": "原味清汤",
+      "stallName": "米线 · 夹馍",
+      "canteenName": "小张餐厅二楼",
+      "sum": 21,
+      "votes": 5
+    },
+    "d346": {
+      "dishId": "d346",
+      "stallId": "c2s9",
+      "canteenId": "c2",
+      "dishName": "原味清汤 + 刀削面",
+      "stallName": "米线 · 夹馍",
+      "canteenName": "小张餐厅二楼",
+      "sum": 4,
+      "votes": 1
+    },
+    "d380": {
+      "dishId": "d380",
+      "stallId": "c2s10",
+      "canteenId": "c2",
+      "dishName": "可乐",
+      "stallName": "水吧（鲜饮小站）",
+      "canteenName": "小张餐厅二楼",
+      "sum": 39,
+      "votes": 9
+    },
+    "d381": {
+      "dishId": "d381",
+      "stallId": "c2s10",
+      "canteenId": "c2",
+      "dishName": "雪碧",
+      "stallName": "水吧（鲜饮小站）",
+      "canteenName": "小张餐厅二楼",
+      "sum": 38,
+      "votes": 9
+    },
+    "d382": {
+      "dishId": "d382",
+      "stallId": "c2s10",
+      "canteenId": "c2",
+      "dishName": "芬达",
+      "stallName": "水吧（鲜饮小站）",
+      "canteenName": "小张餐厅二楼",
+      "sum": 23,
+      "votes": 5
+    },
+    "d383": {
+      "dishId": "d383",
+      "stallId": "c2s10",
+      "canteenId": "c2",
+      "dishName": "冰鲜柠檬水",
+      "stallName": "水吧（鲜饮小站）",
+      "canteenName": "小张餐厅二楼",
+      "sum": 30,
+      "votes": 7
+    },
+    "d384": {
+      "dishId": "d384",
+      "stallId": "c2s10",
+      "canteenId": "c2",
+      "dishName": "茉莉柠檬水",
+      "stallName": "水吧（鲜饮小站）",
+      "canteenName": "小张餐厅二楼",
+      "sum": 34,
+      "votes": 7
+    },
+    "d385": {
+      "dishId": "d385",
+      "stallId": "c2s10",
+      "canteenId": "c2",
+      "dishName": "柠檬红茶",
+      "stallName": "水吧（鲜饮小站）",
+      "canteenName": "小张餐厅二楼",
+      "sum": 26,
+      "votes": 8
+    },
+    "d386": {
+      "dishId": "d386",
+      "stallId": "c2s10",
+      "canteenId": "c2",
+      "dishName": "酸梅汁",
+      "stallName": "水吧（鲜饮小站）",
+      "canteenName": "小张餐厅二楼",
+      "sum": 4,
+      "votes": 1
+    },
+    "d400": {
+      "dishId": "d400",
+      "stallId": "c2s11",
+      "canteenId": "c2",
+      "dishName": "川渝自选菜（计重）",
+      "stallName": "川渝自选菜",
+      "canteenName": "小张餐厅二楼",
+      "sum": 7,
+      "votes": 2
+    },
+    "d410": {
+      "dishId": "d410",
+      "stallId": "c2s12",
+      "canteenId": "c2",
+      "dishName": "招牌黑鸭煲",
+      "stallName": "食味轩特色饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 39,
+      "votes": 8
+    },
+    "d411": {
+      "dishId": "d411",
+      "stallId": "c2s12",
+      "canteenId": "c2",
+      "dishName": "金牌酱焖鸭",
+      "stallName": "食味轩特色饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 29,
+      "votes": 9
+    },
+    "d412": {
+      "dishId": "d412",
+      "stallId": "c2s12",
+      "canteenId": "c2",
+      "dishName": "黑鸭鸡腿煲",
+      "stallName": "食味轩特色饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 19,
+      "votes": 5
+    },
+    "d413": {
+      "dishId": "d413",
+      "stallId": "c2s12",
+      "canteenId": "c2",
+      "dishName": "黑鸭烧肉煲",
+      "stallName": "食味轩特色饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 17,
+      "votes": 5
+    },
+    "d414": {
+      "dishId": "d414",
+      "stallId": "c2s12",
+      "canteenId": "c2",
+      "dishName": "黑鸭海带煲",
+      "stallName": "食味轩特色饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 18,
+      "votes": 5
+    },
+    "d415": {
+      "dishId": "d415",
+      "stallId": "c2s12",
+      "canteenId": "c2",
+      "dishName": "黑鸭腐竹煲",
+      "stallName": "食味轩特色饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 25,
+      "votes": 6
+    },
+    "d416": {
+      "dishId": "d416",
+      "stallId": "c2s12",
+      "canteenId": "c2",
+      "dishName": "黑鸭金针菇煲",
+      "stallName": "食味轩特色饭",
+      "canteenName": "小张餐厅二楼",
+      "sum": 7,
+      "votes": 2
+    },
+    "d500": {
+      "dishId": "d500",
+      "stallId": "c3s1",
+      "canteenId": "c3",
+      "dishName": "牛肉拉面",
+      "stallName": "兰州拉面窗口",
+      "canteenName": "民族餐厅",
+      "sum": 17,
+      "votes": 5
+    },
+    "d501": {
+      "dishId": "d501",
+      "stallId": "c3s1",
+      "canteenId": "c3",
+      "dishName": "毛细拉面",
+      "stallName": "兰州拉面窗口",
+      "canteenName": "民族餐厅",
+      "sum": 28,
+      "votes": 6
+    },
+    "d502": {
+      "dishId": "d502",
+      "stallId": "c3s1",
+      "canteenId": "c3",
+      "dishName": "牛肉炒面",
+      "stallName": "兰州拉面窗口",
+      "canteenName": "民族餐厅",
+      "sum": 10,
+      "votes": 3
+    },
+    "d510": {
+      "dishId": "d510",
+      "stallId": "c3s2",
+      "canteenId": "c3",
+      "dishName": "新疆炒饭",
+      "stallName": "新疆炒饭 · 烤肉窗口",
+      "canteenName": "民族餐厅",
+      "sum": 19,
+      "votes": 5
+    },
+    "d511": {
+      "dishId": "d511",
+      "stallId": "c3s2",
+      "canteenId": "c3",
+      "dishName": "羊肉串",
+      "stallName": "新疆炒饭 · 烤肉窗口",
+      "canteenName": "民族餐厅",
+      "sum": 32,
+      "votes": 9
+    },
+    "d512": {
+      "dishId": "d512",
+      "stallId": "c3s2",
+      "canteenId": "c3",
+      "dishName": "大盘鸡",
+      "stallName": "新疆炒饭 · 烤肉窗口",
+      "canteenName": "民族餐厅",
+      "sum": 22,
+      "votes": 5
+    },
+    "d513": {
+      "dishId": "d513",
+      "stallId": "c3s2",
+      "canteenId": "c3",
+      "dishName": "烤包子",
+      "stallName": "新疆炒饭 · 烤肉窗口",
+      "canteenName": "民族餐厅",
+      "sum": 3,
+      "votes": 1
+    },
+    "d520": {
+      "dishId": "d520",
+      "stallId": "c3s3",
+      "canteenId": "c3",
+      "dishName": "羊肉烧麦",
+      "stallName": "清真快餐窗口",
+      "canteenName": "民族餐厅",
+      "sum": 30,
+      "votes": 9
+    },
+    "d521": {
+      "dishId": "d521",
+      "stallId": "c3s3",
+      "canteenId": "c3",
+      "dishName": "羊杂碎汤",
+      "stallName": "清真快餐窗口",
+      "canteenName": "民族餐厅",
+      "sum": 22,
+      "votes": 6
+    },
+    "d522": {
+      "dishId": "d522",
+      "stallId": "c3s3",
+      "canteenId": "c3",
+      "dishName": "焙子夹肉",
+      "stallName": "清真快餐窗口",
+      "canteenName": "民族餐厅",
+      "sum": 20,
+      "votes": 5
+    },
+    "d523": {
+      "dishId": "d523",
+      "stallId": "c3s3",
+      "canteenId": "c3",
+      "dishName": "手抓饭",
+      "stallName": "清真快餐窗口",
+      "canteenName": "民族餐厅",
+      "sum": 9,
+      "votes": 2
+    },
+    "d600": {
+      "dishId": "d600",
+      "stallId": "c4s1",
+      "canteenId": "c4",
+      "dishName": "宫保鸡丁盖饭",
+      "stallName": "昕辉",
+      "canteenName": "昕辉",
+      "sum": 27,
+      "votes": 7
+    },
+    "d601": {
+      "dishId": "d601",
+      "stallId": "c4s1",
+      "canteenId": "c4",
+      "dishName": "鱼香肉丝盖饭",
+      "stallName": "昕辉",
+      "canteenName": "昕辉",
+      "sum": 35,
+      "votes": 8
+    },
+    "d602": {
+      "dishId": "d602",
+      "stallId": "c4s1",
+      "canteenId": "c4",
+      "dishName": "青椒肉丝盖饭",
+      "stallName": "昕辉",
+      "canteenName": "昕辉",
+      "sum": 31,
+      "votes": 8
+    },
+    "d603": {
+      "dishId": "d603",
+      "stallId": "c4s1",
+      "canteenId": "c4",
+      "dishName": "西红柿鸡蛋盖饭",
+      "stallName": "昕辉",
+      "canteenName": "昕辉",
+      "sum": 3,
+      "votes": 1
+    },
+    "d700": {
+      "dishId": "d700",
+      "stallId": "c5s1",
+      "canteenId": "c5",
+      "dishName": "珍珠奶茶",
+      "stallName": "汤姆大叔",
+      "canteenName": "汤姆大叔",
+      "sum": 39,
+      "votes": 8
+    },
+    "d701": {
+      "dishId": "d701",
+      "stallId": "c5s1",
+      "canteenId": "c5",
+      "dishName": "杨枝甘露",
+      "stallName": "汤姆大叔",
+      "canteenName": "汤姆大叔",
+      "sum": 21,
+      "votes": 5
+    },
+    "d702": {
+      "dishId": "d702",
+      "stallId": "c5s1",
+      "canteenId": "c5",
+      "dishName": "柠檬水",
+      "stallName": "汤姆大叔",
+      "canteenName": "汤姆大叔",
+      "sum": 30,
+      "votes": 8
+    },
+    "d703": {
+      "dishId": "d703",
+      "stallId": "c5s1",
+      "canteenId": "c5",
+      "dishName": "烤肠",
+      "stallName": "汤姆大叔",
+      "canteenName": "汤姆大叔",
+      "sum": 28,
+      "votes": 8
+    },
+    "d704": {
+      "dishId": "d704",
+      "stallId": "c5s1",
+      "canteenId": "c5",
+      "dishName": "鸡排",
+      "stallName": "汤姆大叔",
+      "canteenName": "汤姆大叔",
+      "sum": 25,
+      "votes": 7
+    },
+    "d705": {
+      "dishId": "d705",
+      "stallId": "c5s1",
+      "canteenId": "c5",
+      "dishName": "关东煮",
+      "stallName": "汤姆大叔",
+      "canteenName": "汤姆大叔",
+      "sum": 8,
+      "votes": 2
+    }
+  }
+}

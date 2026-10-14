@@ -1,0 +1,7 @@
+﻿# Netlify 路由规则（ZIP 部署也认这个文件）
+# 把 /api/* 交给云函数，其余走静态文件
+
+/api/*  /.netlify/functions/api  200!
+
+# 其它路径回首页（单页应用）
+/*  /index.html  200

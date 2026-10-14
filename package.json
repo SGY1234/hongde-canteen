@@ -1,0 +1,17 @@
+{
+  "name": "hongde-canteen-rating",
+  "version": "1.0.0",
+  "private": true,
+  "description": "内蒙古鸿德文理学院校园食堂菜品打分工具（零依赖手机 H5）",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server/local.js",
+    "test": "node test/frontend-contract.js && node test/smoke.js",
+    "build:function": "node scripts/build-function.js",
+    "deploy": "node scripts/deploy-netlify.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

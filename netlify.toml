@@ -1,0 +1,21 @@
+// Netlify 配置。
+//
+// 注意：用 ZIP 直接部署时，静态文件会被原样放到站点根目录（不走构建），
+// 所以这里**不设 publish**（设了反而会让平台去 public/ 找，导致首页 404）。
+// functions 目录是 netlify/functions，里面的 api.js 是自包含的云函数。
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "none"
+
+# 所有 /api/* 交给云函数（它复用 server/local.js 的同一份代码）
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "no-store"

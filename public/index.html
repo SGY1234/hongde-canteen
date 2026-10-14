@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>鸿德食堂打分 · 主校区</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-title">鸿德食堂打分</div>
+  <div class="topbar-sub" id="topbarSub">鸿德主校区</div>
+</header>
+
+<main id="main">
+
+  <div class="demo-banner" id="demoBanner" hidden>
+    当前展示的是<b>演示数据</b>，用来让你先看懂榜单长什么样。<br>
+    你打出的第一个真实评分会让演示数据整体退场，榜单从零开始算。
+  </div>
+
+  <!-- ===== Tab 1: 我要打分 ===== -->
+  <section class="screen is-active" id="screen-rate">
+    <div class="steps">
+      <div class="step" id="st1"><b>1</b><span>选食堂</span></div>
+      <div class="step" id="st2"><b>2</b><span>选档口</span></div>
+      <div class="step" id="st3"><b>3</b><span>选菜品</span></div>
+      <div class="step" id="st4"><b>4</b><span>打星提交</span></div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label class="field-label">食堂 / 店</label>
+        <select id="selCanteen" class="picker"><option value="">请选择食堂</option></select>
+      </div>
+
+      <div class="field" id="stallField">
+        <label class="field-label">档口 / 窗口</label>
+        <select id="selStall" class="picker" disabled><option value="">请先选食堂</option></select>
+      </div>
+
+      <div class="field">
+        <label class="field-label">菜品</label>
+        <select id="selDish" class="picker" disabled><option value="">请先选档口</option></select>
+      </div>
+    </div>
+
+    <div class="card rate-card" id="rateCard">
+      <div class="rate-dish" id="rateDishName">还没选菜品</div>
+      <div class="rate-hint" id="rateDishHint">选择菜品后给它打个分吧</div>
+
+      <div class="stars" id="stars" role="radiogroup" aria-label="评分">
+        <span class="star" data-score="1">★</span>
+        <span class="star" data-score="2">★</span>
+        <span class="star" data-score="3">★</span>
+        <span class="star" data-score="4">★</span>
+        <span class="star" data-score="5">★</span>
+      </div>
+      <div class="score-text" id="scoreText">点击星星打分</div>
+
+      <div class="quick-comments" id="quickComments">
+        <span class="chip" data-c="很好吃">很好吃</span>
+        <span class="chip" data-c="量足实惠">量足实惠</span>
+        <span class="chip" data-c="一般般">一般般</span>
+        <span class="chip" data-c="有点咸">有点咸</span>
+        <span class="chip" data-c="不会再吃">不会再吃</span>
+      </div>
+
+      <input type="text" id="commentInput" class="comment" maxlength="30" placeholder="选填：一句话评价（30字内）">
+
+      <button class="btn-primary" id="btnSubmit" disabled>提交打分</button>
+      <div class="form-msg" id="formMsg"></div>
+    </div>
+  </section>
+
+  <!-- ===== Tab 2: 单食堂榜单 ===== -->
+  <section class="screen" id="screen-canteen">
+    <div class="card">
+      <label class="field-label">选择食堂</label>
+      <select id="selCanteenBoard" class="picker"></select>
+    </div>
+    <div id="canteenBoard" class="board"></div>
+  </section>
+
+  <!-- ===== Tab 3: 全校总榜 ===== -->
+  <section class="screen" id="screen-all">
+    <div class="school-hero">
+      <div class="school-hero-title">鸿德必吃 Top20</div>
+      <div class="school-hero-sub" id="allSub">主校区全部食堂混排 · 至少 5 人打分才进榜</div>
+    </div>
+    <div id="allBoard" class="board"></div>
+  </section>
+
+</main>
+
+<nav class="tabbar">
+  <button class="tab is-active" data-tab="rate">
+    <span class="tab-ico">✎</span><span>我要打分</span>
+  </button>
+  <button class="tab" data-tab="canteen">
+    <span class="tab-ico">▤</span><span>单食堂榜单</span>
+  </button>
+  <button class="tab" data-tab="all">
+    <span class="tab-ico">★</span><span>全校总榜</span>
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script src="./app.js"></script>
+</body>
+</html>
