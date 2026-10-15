@@ -24,6 +24,52 @@ const ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT, 'public');
 const DATA_DIR = process.env.HD_DATA_DIR ? path.resolve(process.env.HD_DATA_DIR) : path.join(ROOT, 'data');
 
+/* ============================ 读本地配置文件 ============================ */
+/**
+ * 支持用 .env.feishu 文件配密钥（就不用在命令行里设一堆环境变量了）。
+ *
+ * 查找顺序（找到第一个就用）：
+ *   ./.env.feishu        （项目根目录）
+ *   ../.env.feishu       （打包进云函数目录时）
+ *   ./.env               （通用写法）
+ * 已经存在的环境变量优先，配置文件不覆盖它 —— 这样线上（平台后台配环境变量）
+ * 和本地（配置文件）两种方式都能用。
+ *
+ * ⚠️ 安全开关：设了 HD_FORCE_LOCAL=1 就完全不读这些文件、强制用本地文件存储。
+ *    这是给自动化测试用的 —— 否则测试会写进真实的飞书表格（这个坑我踩过）。
+ */
+function loadEnvFiles() {
+  if (process.env.HD_FORCE_LOCAL === '1') return null;
+  const candidates = [
+    path.join(ROOT, '.env.feishu'),
+    path.join(__dirname, '..', '.env.feishu'),
+    path.join(__dirname, '.env.feishu'),
+    path.join(process.cwd(), '.env.feishu'),
+    path.join(ROOT, '.env'),
+    path.join(process.cwd(), '.env')
+  ];
+  for (const file of candidates) {
+    try {
+      const text = fs.readFileSync(file, 'utf8');
+      let n = 0;
+      for (const line of text.split(/\r?\n/)) {
+        const m = line.match(/^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*?)\s*$/);
+        if (!m) continue;
+        const key = m[1];
+        const val = m[2].replace(/^["']|["']$/g, '');
+        if (process.env[key] === undefined) {   // 环境变量优先
+          process.env[key] = val;
+          n++;
+        }
+      }
+      return { file, count: n };
+    } catch (e) { /* 这个文件不存在，试下一个 */ }
+  }
+  return null;
+}
+
+const ENV_FILE = loadEnvFiles();
+
 /* ============================ 数据源装配 ============================ */
 const FEISHU_CFG = {
   appId: process.env.FEISHU_APP_ID,
@@ -555,7 +601,7 @@ function startServer(port) {
   });
   server.listen(port, () => {
     let source;
-    if (USE_FEISHU) source = '飞书多维表格';
+    if (USE_FEISHU) source = '飞书多维表格（同学们的打分会写进你的飞书表）';
     else if (isDemo()) source = '演示数据（还没有人真实打分，等你打第一个分）';
     else source = '本地文件 data/ratings.json';
     const lines = [
@@ -563,8 +609,14 @@ function startServer(port) {
       '  ✅ 鸿德食堂打分工具 已启动',
       '  ─────────────────────────────────────────────',
       '  数据源：' + source,
-      '  电脑打开：  http://localhost:' + port,
     ];
+    if (USE_FEISHU && ENV_FILE) {
+      lines.push('  配置来自：' + path.relative(ROOT, ENV_FILE.file) + '（' + ENV_FILE.count + ' 项）');
+      lines.push('  飞书表格：https://my.feishu.cn/base/' + FEISHU_CFG.appToken);
+    } else if (!USE_FEISHU && ENV_FILE) {
+      lines.push('  配置来自：' + path.relative(ROOT, ENV_FILE.file) + '（但飞书 4 个值没配齐，仍用本地文件）');
+    }
+    lines.push('  电脑打开：  http://localhost:' + port);
     const lan = lanAddresses(port);
     if (lan.length) {
       lines.push('  手机打开：  ' + lan.map((u) => u).join('\n              '));

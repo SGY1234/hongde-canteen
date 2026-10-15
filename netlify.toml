@@ -1,11 +1,18 @@
-// Netlify 配置。
+// Netlify 配置 —— 从 GitHub 自动构建时用这一份。
 //
-// 注意：用 ZIP 直接部署时，静态文件会被原样放到站点根目录（不走构建），
-// 所以这里**不设 publish**（设了反而会让平台去 public/ 找，导致首页 404）。
-// functions 目录是 netlify/functions，里面的 api.js 是自包含的云函数。
+// 关键点：连接 GitHub 后，Netlify 会跑它自己的构建流程，
+// 这时**必须**告诉它静态文件在 public/ 目录，否则首页会 404。
+// （和"直接拖 ZIP 上传"不同：那种方式不做构建，静态文件必须放在仓库根目录。
+//   两种方式的配置需求是相反的，所以我在这里写清楚。）
+//
+// 另外 netlify/functions 里放的是自包含云函数（内嵌了后端代码和菜单数据），
+// 由 scripts/build-function.js 生成。改了 server/ 下的代码要重新生成并提交。
+
+[build]
+  publish = "public"
+  functions = "netlify/functions"
 
 [functions]
-  directory = "netlify/functions"
   node_bundler = "none"
 
 # 所有 /api/* 交给云函数（它复用 server/local.js 的同一份代码）
@@ -15,6 +22,7 @@
   status = 200
   force = true
 
+# 菜单数据不缓存，改完立刻生效
 [[headers]]
   for = "/data/*"
   [headers.values]
