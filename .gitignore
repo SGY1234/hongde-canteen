@@ -5,3 +5,9 @@ data/
 deploy.zip
 *.log
 .edge-profile/
+
+# 交接/教训文档：含个人信息（手机号、邮箱）与飞书应用 ID，只放本地，禁止入库
+AI踩坑教训.md
+从这里开始.md
+项目交接文档.md
+使用说明.md
