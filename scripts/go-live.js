@@ -36,6 +36,38 @@ const NODE = process.execPath;
 const { resolveOutDir } = require('../lib/desktop-dir');
 const DESKTOP_DIR = resolveOutDir() || path.resolve(ROOT, 'qr');
 
+/**
+ * 访问「公网」地址必须用 https.get，不能用 fetch。
+ *
+ * 背景（2026-10-19 实测，本机固定如此）：
+ *   - 本机 fetch 访问 *.trycloudflare.com 一律 `fetch failed`（undici 的 TLS 栈在这台机器上不通）；
+ *   - pwsh 的 Invoke-WebRequest 报 `The SSL connection could not be established`；
+ *   - 只有 Node 的 require('https').get 能正常拿到 200。
+ * 之前这里用 fetch 验证，导致每次上线都误报「本机暂时访问不到这个新地址」，
+ * 用户看到会以为坏了。所以公网探测统一走这个函数。
+ *
+ * 返回 { ok, status, json } —— 失败时 ok=false，不抛异常。
+ */
+function fetchPublic(url, timeoutMs) {
+  const https = require('https');
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = (v) => { if (!done) { done = true; resolve(v); } };
+    const req = https.get(url, { timeout: timeoutMs || 12000 }, (res) => {
+      let body = '';
+      res.setEncoding('utf8');
+      res.on('data', (c) => { body += c; });
+      res.on('end', () => {
+        let json = null;
+        try { json = JSON.parse(body); } catch (e) { /* 不是 JSON 就算了 */ }
+        finish({ ok: res.statusCode >= 200 && res.statusCode < 300, status: res.statusCode, json });
+      });
+    });
+    req.on('timeout', () => { req.destroy(); finish({ ok: false, status: 0, json: null }); });
+    req.on('error', () => finish({ ok: false, status: 0, json: null }));
+  });
+}
+
 /** 生成二维码（只保留关键行输出） */
 function makeQr(url) {
   console.log('\n  正在生成二维码…');
@@ -105,8 +137,8 @@ function shutdown() {
   try {
     const prev = fs.readFileSync(URL_FILE, 'utf8').trim();
     if (/^https:\/\//.test(prev)) {
-      const res = await fetch(prev + '/api/stats', { signal: AbortSignal.timeout(12000) });
-      if (res.ok) liveUrl = prev;
+      const r = await fetchPublic(prev + '/api/stats', 12000);
+      if (r.ok) liveUrl = prev;
     }
   } catch (e) { /* 没在线，正常继续 */ }
 
@@ -217,16 +249,15 @@ function shutdown() {
     if (!got) { console.log('        ⚠️ 这次没拿到地址，重试…'); continue; }
 
     // 用 HTTP 请求判断地址是否真的活着（最多等 24 秒）
+    // 注意：必须用 fetchPublic（https.get），不能用 fetch —— 本机 fetch 访问 trycloudflare 一定失败。
     for (let i = 0; i < 8 && !verified; i++) {
-      try {
-        const res = await fetch(got + '/api/stats', { signal: AbortSignal.timeout(10000) });
-        if (res.ok) {
-          const j = await res.json();
-          verified = true;
-          console.log('        公网已可用 ✅  数据源：' + j.dataSource + ' · 已有打分：' + j.totalVotes + ' 票');
-        }
-      } catch (e) { /* 还没生效，继续等 */ }
-      if (!verified) await new Promise((r) => setTimeout(r, 3000));
+      const r = await fetchPublic(got + '/api/stats', 10000);
+      if (r.ok) {
+        const j = r.json || {};
+        verified = true;
+        console.log('        公网已可用 ✅  数据源：' + j.dataSource + ' · 已有打分：' + j.totalVotes + ' 票');
+      }
+      if (!verified) await new Promise((r2) => setTimeout(r2, 3000));
     }
     url = got;                 // 只要拿到了地址就先采用；本机不通也让用户手机去试
     if (!verified) console.log('        公网地址已生成：' + url + '（本机暂未验证通，同学手机一般可以打开）');
