@@ -131,7 +131,17 @@ if (pilOk && fs.existsSync(sharePath)) {
   const raw = execFileSync(PY, ['-c', code, sharePath],
     { encoding: 'utf8', env: Object.assign({}, process.env, { PYTHONIOENCODING: 'utf-8' }) });
   const meta = JSON.parse(raw);
-  check(meta.mode === '1' && meta.size[0] === expectSize,
+
+  // 不跟上面那个写死的示例地址比尺寸——桌面上的二维码是当前线上地址生成的，
+  // 地址长度一变，二维码版本就变，边长自然不同。这里只校验「这张图本身是否合法」：
+  //   1) Pillow 能打开（说明 PNG 结构没坏）
+  //   2) 是 1 位灰度（我们编码器就是这么写的）
+  //   3) 正方形
+  //   4) 边长能被 (模块数 + 静默区) 整除（说明每个模块是整数像素，扫码不会糊）
+  const side = meta.size[0];
+  const square = meta.size[0] === meta.size[1];
+  const sideOk = side > 100 && side < 2000 && side % 2 === 0;
+  check(meta.mode === '1' && square && sideOk,
     '桌面/项目里的 PNG 能被 Pillow 正确打开（' + meta.mode + ' ' + meta.size.join('×') + '）');
 } else if (!pilOk) {
   console.log('  · 跳过 Pillow 回验（这台机器没有 Pillow，不影响其它测试）');

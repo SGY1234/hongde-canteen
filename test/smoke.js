@@ -115,10 +115,12 @@ async function main() {
   await new Promise((r) => setTimeout(r, 350));
 
   console.log('\n【1】基础接口与菜单数据');
-  await check('GET /api/menu 返回 5 个食堂', async () => {
+  await check('GET /api/menu 返回的食堂数与菜单文件一致', async () => {
     const { status, json } = await req('GET', '/api/menu');
     assert.strictEqual(status, 200);
-    assert.strictEqual(json.canteens.length, 5, '食堂数应为 5，实际 ' + json.canteens.length);
+    // 不写死数字：菜单文件里有几个食堂，接口就该返回几个
+    assert.strictEqual(json.canteens.length, MENU_JSON.canteens.length,
+      '食堂数应为 ' + MENU_JSON.canteens.length + '，实际 ' + json.canteens.length);
     assert.ok(json.dishes.length >= 100, '菜品应 >= 100 道，实际 ' + json.dishes.length);
     assert.strictEqual(json.campuses.find((c) => c.active).name, '鸿德主校区');
   });
@@ -142,8 +144,9 @@ async function main() {
 
   await check('「一家店一个菜单」的店只有一个档口（页面会自动跳过选窗口）', async () => {
     const { json } = await req('GET', '/api/menu');
+    // 现在所有食堂都是多档口了，single-menu 可能一家都没有；
+    // 但只要有，就必须严格符合「一个档口」的约定，否则页面跳过选择框会让同学打不到分。
     const singles = json.canteens.filter((c) => c.stallMode === 'single-menu');
-    assert.ok(singles.length > 0, '至少应有一家 single-menu 的店');
     singles.forEach((c) => {
       const stalls = json.stalls.filter((s) => s.canteenId === c.id);
       assert.strictEqual(stalls.length, 1,
