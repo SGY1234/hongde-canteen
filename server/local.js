@@ -82,14 +82,50 @@ const FEISHU_CFG = {
 
 const USE_FEISHU = !!(FEISHU_CFG.appId && FEISHU_CFG.appSecret && FEISHU_CFG.appToken && FEISHU_CFG.tableId);
 
-const store = USE_FEISHU
-  ? new stores.FeishuStore(FEISHU_CFG)
-  : new stores.FileStore({
-      file: path.join(DATA_DIR, 'ratings.json'),
-      detailsFile: path.join(DATA_DIR, 'details.json'),
-      // 真实数据为空时展示这份演示数据，让第一次打开的人立刻看懂榜单长什么样
-      fallbackFile: path.join(ROOT, 'demo', 'ratings.demo.json')
-    });
+/** 是否真的在用飞书（启动时探测失败会自动关掉，见 probeFeishu） */
+let FEISHU_OK = USE_FEISHU;
+/** 降级原因（降级时写一行说明，供启动日志和页面提示用） */
+let DEGRADE_REASON = '';
+/**
+ * 本次启动是否"配了飞书"（即正式上线场景）。
+ * 用途：正式上线时若飞书被风控降级，**绝不能展示演示数据**，
+ * 否则同学会把 599 票假分数当成真的；而开发者本地不配飞书测试时，
+ * 演示数据是有用的（第一次打开就能看懂榜单长什么样）。
+ */
+let FEISHU_CONFIGURED_AT_BOOT = USE_FEISHU;
+
+/** 本地文件存储（飞书不可用时的兜底，数据不会丢，只是没进飞书表） */
+function makeFileStore() {
+  const noDemo = process.env.HD_NO_DEMO === '1' || FEISHU_CONFIGURED_AT_BOOT;
+  return new stores.FileStore({
+    file: path.join(DATA_DIR, 'ratings.json'),
+    detailsFile: path.join(DATA_DIR, 'details.json'),
+    // 演示数据只在"没配飞书"的开发场景用；正式上线一律不展示
+    fallbackFile: noDemo ? null : path.join(ROOT, 'demo', 'ratings.demo.json')
+  });
+}
+
+let store = USE_FEISHU ? new stores.FeishuStore(FEISHU_CFG) : makeFileStore();
+
+/**
+ * 启动时探测飞书是否可用。
+ * 为什么需要：飞书会偶发风控（例如 `21001 Access denied by access control policy`），
+ * 一旦鉴权失败，所有读接口都会 500 —— **整个网站等于打不开**。
+ * 这里的策略是：探测一次，失败就降级用本地文件，网站照常开门，
+ * 并明确告诉用户"现在数据存在本机"，而不是让页面报错。
+ */
+async function probeFeishu() {
+  if (!USE_FEISHU) return { ok: false, reason: '飞书 4 个配置值没配齐' };
+  try {
+    await Promise.race([
+      store.list(),
+      new Promise((_, rej) => setTimeout(() => rej(new Error('飞书连接超时（15 秒）')), 15000))
+    ]);
+    return { ok: true, reason: '' };
+  } catch (e) {
+    return { ok: false, reason: String((e && e.message) || e).split('\n')[0] };
+  }
+}
 
 /* ============================ 菜单 ============================ */
 /**
@@ -300,7 +336,9 @@ function hashIp(ip) {
 /* ============================ 接口实现 ============================ */
 /** 当前展示的是不是演示数据（真实数据文件为空时才会是 true） */
 function isDemo() {
-  return USE_FEISHU ? false : (typeof store.isShowingDemo === 'function' && store.isShowingDemo());
+  // 注意用 FEISHU_OK 而不是 USE_FEISHU：飞书探测失败降级到本地后，
+  // 就该按本地文件的情况判断是否在展示演示数据。
+  return FEISHU_OK ? false : (typeof store.isShowingDemo === 'function' && store.isShowingDemo());
 }
 
 async function apiMenu() {
@@ -424,10 +462,18 @@ async function apiStats() {
   const records = normalizeRecords(await store.list());
   const boards = rankings.computeBoards(records, boardContext());
   const totalVotes = records.reduce((a, r) => a + r.votes, 0);
-  const demo = USE_FEISHU ? false : (typeof store.isShowingDemo === 'function' && store.isShowingDemo());
+  const demo = FEISHU_OK ? false : (typeof store.isShowingDemo === 'function' && store.isShowingDemo());
+  // 降级时明确写出来，避免用户以为分数进了飞书表
+  let dataSource;
+  if (FEISHU_OK) dataSource = '飞书多维表格';
+  else if (demo) dataSource = '演示数据（还没人真实打分）';
+  else if (USE_FEISHU) dataSource = '本地文件（飞书暂时连不上，已自动降级）';
+  else dataSource = '本地文件（未接飞书）';
   return {
-    dataSource: USE_FEISHU ? '飞书多维表格' : (demo ? '演示数据（还没人真实打分）' : '本地文件（未接飞书）'),
+    dataSource,
     isDemoData: demo,
+    feishuDegraded: !!(USE_FEISHU && !FEISHU_OK),
+    degradeReason: DEGRADE_REASON || undefined,
     dishes: records.length,
     totalVotes,
     qualifiedDishes: boards.dishes.length,
@@ -601,7 +647,7 @@ function startServer(port) {
   });
   server.listen(port, () => {
     let source;
-    if (USE_FEISHU) source = '飞书多维表格（同学们的打分会写进你的飞书表）';
+    if (FEISHU_OK) source = '飞书多维表格（同学们的打分会写进你的飞书表）';
     else if (isDemo()) source = '演示数据（还没有人真实打分，等你打第一个分）';
     else source = '本地文件 data/ratings.json';
     const lines = [
@@ -610,11 +656,18 @@ function startServer(port) {
       '  ─────────────────────────────────────────────',
       '  数据源：' + source,
     ];
-    if (USE_FEISHU && ENV_FILE) {
+    if (FEISHU_OK && ENV_FILE) {
       lines.push('  配置来自：' + path.relative(ROOT, ENV_FILE.file) + '（' + ENV_FILE.count + ' 项）');
       lines.push('  飞书表格：https://my.feishu.cn/base/' + FEISHU_CFG.appToken);
     } else if (!USE_FEISHU && ENV_FILE) {
       lines.push('  配置来自：' + path.relative(ROOT, ENV_FILE.file) + '（但飞书 4 个值没配齐，仍用本地文件）');
+    }
+    // 飞书配了但探测失败 → 明确警告，避免用户以为数据进了飞书
+    if (USE_FEISHU && !FEISHU_OK) {
+      lines.push('');
+      lines.push('  ⚠️ 飞书暂时连不上，已经自动改用本地存储（网站能正常用，分数不会丢）');
+      lines.push('     原因：' + DEGRADE_REASON);
+      lines.push('     分数会存在 data\\ratings.json；飞书恢复后重启本服务即可切回飞书表。');
     }
     lines.push('  电脑打开：  http://localhost:' + port);
     const lan = lanAddresses(port);
@@ -626,6 +679,19 @@ function startServer(port) {
     console.log(lines.join('\n'));
   });
   return server;
+}
+
+/** 启动入口：先探测飞书，再开服务（探测失败就降级本地存储） */
+async function main(port) {
+  if (USE_FEISHU) {
+    const r = await probeFeishu();
+    if (!r.ok) {
+      FEISHU_OK = false;
+      DEGRADE_REASON = r.reason;
+      store = makeFileStore();
+    }
+  }
+  return startServer(port);
 }
 
 /**
@@ -672,12 +738,15 @@ module.exports = async function handler(event, context) {
 module.exports.handleRequest = handleRequest;
 module.exports.route = route;
 module.exports.startServer = startServer;
+module.exports.main = main;
 module.exports.__internal = {
   beijingDate, clientIp, normalizeRecords, menuIndex, rateLimit,
-  loadMenu, get MENU() { return MENU; }, set MENU(v) { MENU = v; }
+  loadMenu, get MENU() { return MENU; }, set MENU(v) { MENU = v; },
+  get FEISHU_OK() { return FEISHU_OK; }, get DEGRADE_REASON() { return DEGRADE_REASON; },
+  probeFeishu
 };
 
 if (require.main === module) {
   const port = Number(process.env.PORT) || 5173;
-  startServer(port);
+  main(port).catch((err) => { console.error('[fatal] 启动失败：', err); process.exit(1); });
 }

@@ -1,0 +1,3243 @@
+{
+  "_说明": "这是菜单数据源，你只需要改这个文件。改完刷新页面即可生效，不用重新部署。",
+  "_结构说明": [
+    "canteens 是食堂/店；每个 canteen 有一个 stallMode 标记它内部怎么卖：",
+    "  stallMode = single-menu  → 就一个菜单（页面自动跳过「选窗口」，同学少点一次）",
+    "  stallMode = multi-stall  → 里面有好几个窗口（页面让同学先选窗口）",
+    "stalls 是窗口；dishes 是菜品，用 stallId 挂到窗口上",
+    "stall 的 code 字段 = 现场挂的红圈窗口号（如 14号窗口），展示用"
+  ],
+  "_数据来源": "小张餐厅二楼实拍菜单照片（2026-10-14 晚上），逆时针从东北角起共 14 家。价格按照片录入，可随时修改。",
+  "_校对提示": "小张餐厅二楼 12 个窗口（290 道菜）+ 金冠 15 家店（192 道菜）已按实拍照片逐条录入并核对。民族餐厅、昕辉、汤姆大叔的菜名和价格还是待拍状态。",
+  "campuses": [
+    {
+      "id": "main",
+      "name": "鸿德主校区",
+      "active": true
+    },
+    {
+      "id": "east",
+      "name": "东校区",
+      "active": false
+    }
+  ],
+  "canteens": [
+    {
+      "id": "c1",
+      "campusId": "main",
+      "name": "金冠",
+      "stallMode": "multi-stall"
+    },
+    {
+      "id": "c2",
+      "campusId": "main",
+      "name": "小张餐厅二楼",
+      "stallMode": "multi-stall"
+    },
+    {
+      "id": "c3",
+      "campusId": "main",
+      "name": "民族餐厅",
+      "stallMode": "multi-stall"
+    },
+    {
+      "id": "c4",
+      "campusId": "main",
+      "name": "昕辉",
+      "stallMode": "single-menu"
+    },
+    {
+      "id": "c5",
+      "campusId": "main",
+      "name": "汤姆大叔",
+      "stallMode": "single-menu"
+    }
+  ],
+  "stalls": [
+    {
+      "id": "c2s1",
+      "canteenId": "c2",
+      "name": "花甲粉 · 螺蛳粉",
+      "code": "14号窗口"
+    },
+    {
+      "id": "c2s2",
+      "canteenId": "c2",
+      "name": "手工鲜肉小笼包",
+      "code": "13号窗口"
+    },
+    {
+      "id": "c2s3",
+      "canteenId": "c2",
+      "name": "小马哥焖肉饭"
+    },
+    {
+      "id": "c2s4",
+      "canteenId": "c2",
+      "name": "小爆炒荔枝鸡",
+      "code": "2号窗口"
+    },
+    {
+      "id": "c2s5",
+      "canteenId": "c2",
+      "name": "品味韩餐",
+      "code": "3号窗口"
+    },
+    {
+      "id": "c2s6",
+      "canteenId": "c2",
+      "name": "SAK 烤鸭饭 · 猪肘饭",
+      "code": "4号窗口"
+    },
+    {
+      "id": "c2s7",
+      "canteenId": "c2",
+      "name": "抖喜新疆炒米粉",
+      "code": "7号窗口"
+    },
+    {
+      "id": "c2s8",
+      "canteenId": "c2",
+      "name": "高师傅面食",
+      "code": "8号窗口"
+    },
+    {
+      "id": "c2s9",
+      "canteenId": "c2",
+      "name": "米线肉夹馍",
+      "code": "9号窗口"
+    },
+    {
+      "id": "c2s10",
+      "canteenId": "c2",
+      "name": "水吧（鲜饮小站）",
+      "code": "10号窗口"
+    },
+    {
+      "id": "c2s11",
+      "canteenId": "c2",
+      "name": "川渝自选菜"
+    },
+    {
+      "id": "c2s12",
+      "canteenId": "c2",
+      "name": "食味轩特色饭",
+      "code": "12号窗口",
+      "note": "老武汉黑鸭煲 / 香约脆皮鸡饭 / 土豆泥煎肉饭 三块招牌其实是同一家，已合并"
+    },
+    {
+      "id": "c3s1",
+      "canteenId": "c3",
+      "name": "兰州拉面窗口"
+    },
+    {
+      "id": "c3s2",
+      "canteenId": "c3",
+      "name": "新疆炒饭 · 烤肉窗口"
+    },
+    {
+      "id": "c3s3",
+      "canteenId": "c3",
+      "name": "清真快餐窗口"
+    },
+    {
+      "id": "c4s1",
+      "canteenId": "c4",
+      "name": "昕辉"
+    },
+    {
+      "id": "c5s1",
+      "canteenId": "c5",
+      "name": "汤姆大叔"
+    },
+    {
+      "id": "c1s1",
+      "canteenId": "c1",
+      "name": "鸡架拌面"
+    },
+    {
+      "id": "c1s2",
+      "canteenId": "c1",
+      "name": "荔枝鸡 特色米饭"
+    },
+    {
+      "id": "c1s3",
+      "canteenId": "c1",
+      "name": "江西南昌瓦罐煨汤 · 铁板炒饭"
+    },
+    {
+      "id": "c1s4",
+      "canteenId": "c1",
+      "name": "现炒盖饭"
+    },
+    {
+      "id": "c1s5",
+      "canteenId": "c1",
+      "name": "现包蒸饺"
+    },
+    {
+      "id": "c1s6",
+      "canteenId": "c1",
+      "name": "小爆炒同学"
+    },
+    {
+      "id": "c1s7",
+      "canteenId": "c1",
+      "name": "爆炒浇头面"
+    },
+    {
+      "id": "c1s8",
+      "canteenId": "c1",
+      "name": "牛肉汤烧饼"
+    },
+    {
+      "id": "c1s9",
+      "canteenId": "c1",
+      "name": "航语佳烤盘饭"
+    },
+    {
+      "id": "c1s10",
+      "canteenId": "c1",
+      "name": "爆二爷 把子肉热卤饭"
+    },
+    {
+      "id": "c1s11",
+      "canteenId": "c1",
+      "name": "付佳佳麻辣烫"
+    },
+    {
+      "id": "c1s12",
+      "canteenId": "c1",
+      "name": "马家胡同 小锅焖炖面"
+    },
+    {
+      "id": "c1s13",
+      "canteenId": "c1",
+      "name": "富荘閤 烤鸭拌饭"
+    },
+    {
+      "id": "c1s14",
+      "canteenId": "c1",
+      "name": "小馋猫私房面"
+    },
+    {
+      "id": "c1s15",
+      "canteenId": "c1",
+      "name": "紫糯饭团"
+    }
+  ],
+  "dishes": [
+    {
+      "id": "d100",
+      "stallId": "c2s1",
+      "name": "招牌花甲粉",
+      "price": 13.9
+    },
+    {
+      "id": "d101",
+      "stallId": "c2s1",
+      "name": "鲜花甲粉",
+      "price": 19.9
+    },
+    {
+      "id": "d102",
+      "stallId": "c2s1",
+      "name": "金汤花甲粉",
+      "price": 18.9
+    },
+    {
+      "id": "d103",
+      "stallId": "c2s1",
+      "name": "藤椒花甲粉",
+      "price": 17.9
+    },
+    {
+      "id": "d104",
+      "stallId": "c2s1",
+      "name": "黏糊麻酱螺蛳粉",
+      "price": 16.9
+    },
+    {
+      "id": "d105",
+      "stallId": "c2s1",
+      "name": "招牌螺蛳粉",
+      "price": 12.9
+    },
+    {
+      "id": "d106",
+      "stallId": "c2s1",
+      "name": "网红拉丝炸蛋螺蛳粉",
+      "price": 16.9
+    },
+    {
+      "id": "d107",
+      "stallId": "c2s1",
+      "name": "鲜在深山螺蛳粉",
+      "price": 16.9
+    },
+    {
+      "id": "d108",
+      "stallId": "c2s1",
+      "name": "虎皮鸡爪螺蛳粉",
+      "price": 16.9
+    },
+    {
+      "id": "d109",
+      "stallId": "c2s1",
+      "name": "油泼干拌螺蛳粉",
+      "price": 24.9
+    },
+    {
+      "id": "d110",
+      "stallId": "c2s1",
+      "name": "螺蛳粉（有肉）",
+      "price": 16.9
+    },
+    {
+      "id": "d111",
+      "stallId": "c2s1",
+      "name": "带皮鸭掌螺蛳粉",
+      "price": 16.9
+    },
+    {
+      "id": "d112",
+      "stallId": "c2s1",
+      "name": "番茄土豆泥螺蛳粉",
+      "price": 16.9
+    },
+    {
+      "id": "d113",
+      "stallId": "c2s1",
+      "name": "螺蛳粉 + 菌汤",
+      "price": 18.9
+    },
+    {
+      "id": "d114",
+      "stallId": "c2s1",
+      "name": "骨汤螺蛳粉",
+      "price": 14.9
+    },
+    {
+      "id": "d115",
+      "stallId": "c2s1",
+      "name": "三鲜螺蛳粉",
+      "price": 14.9
+    },
+    {
+      "id": "d116",
+      "stallId": "c2s1",
+      "name": "广东螺蛳粉",
+      "price": 14.9
+    },
+    {
+      "id": "d117",
+      "stallId": "c2s1",
+      "name": "干拌螺蛳粉",
+      "price": 16.9
+    },
+    {
+      "id": "d118",
+      "stallId": "c2s1",
+      "name": "香辣烤鱼螺蛳粉火锅（2-3人）",
+      "price": 69.9
+    },
+    {
+      "id": "d119",
+      "stallId": "c2s1",
+      "name": "豆腐螺蛳粉火锅",
+      "price": 69.9
+    },
+    {
+      "id": "d120",
+      "stallId": "c2s1",
+      "name": "双人肥肠螺蛳粉火锅",
+      "price": 89.9
+    },
+    {
+      "id": "d121",
+      "stallId": "c2s1",
+      "name": "人气套餐",
+      "price": 20.9
+    },
+    {
+      "id": "d122",
+      "stallId": "c2s1",
+      "name": "炸蛋螺蛳粉套餐",
+      "price": 19.9
+    },
+    {
+      "id": "d123",
+      "stallId": "c2s1",
+      "name": "兰花干螺蛳粉套餐",
+      "price": 19.9
+    },
+    {
+      "id": "d124",
+      "stallId": "c2s1",
+      "name": "鸡爪螺蛳粉套餐",
+      "price": 19.9
+    },
+    {
+      "id": "d130",
+      "stallId": "c2s2",
+      "name": "牛肉包",
+      "price": 2.5
+    },
+    {
+      "id": "d131",
+      "stallId": "c2s2",
+      "name": "酱肉包",
+      "price": 2.5
+    },
+    {
+      "id": "d132",
+      "stallId": "c2s2",
+      "name": "小猪奶黄包",
+      "price": 2.5
+    },
+    {
+      "id": "d133",
+      "stallId": "c2s2",
+      "name": "奥尔良鸡肉包",
+      "price": 2.5
+    },
+    {
+      "id": "d134",
+      "stallId": "c2s2",
+      "name": "鲜肉包",
+      "price": 2
+    },
+    {
+      "id": "d135",
+      "stallId": "c2s2",
+      "name": "梅干菜肉包",
+      "price": 2
+    },
+    {
+      "id": "d136",
+      "stallId": "c2s2",
+      "name": "肉沫酸豆角包",
+      "price": 2
+    },
+    {
+      "id": "d137",
+      "stallId": "c2s2",
+      "name": "豆沙包",
+      "price": 2
+    },
+    {
+      "id": "d138",
+      "stallId": "c2s2",
+      "name": "青椒茄子包",
+      "price": 2
+    },
+    {
+      "id": "d139",
+      "stallId": "c2s2",
+      "name": "韭菜鸡蛋包",
+      "price": 2
+    },
+    {
+      "id": "d140",
+      "stallId": "c2s2",
+      "name": "猪肉茴香包",
+      "price": 2
+    },
+    {
+      "id": "d141",
+      "stallId": "c2s2",
+      "name": "香菇油菜包",
+      "price": 2
+    },
+    {
+      "id": "d142",
+      "stallId": "c2s2",
+      "name": "牛肉小笼包",
+      "price": 12
+    },
+    {
+      "id": "d143",
+      "stallId": "c2s2",
+      "name": "酱肉小笼包",
+      "price": 12
+    },
+    {
+      "id": "d144",
+      "stallId": "c2s2",
+      "name": "鲜肉小笼包",
+      "price": 8
+    },
+    {
+      "id": "d145",
+      "stallId": "c2s2",
+      "name": "麻辣小龙虾小笼包",
+      "price": 15
+    },
+    {
+      "id": "d146",
+      "stallId": "c2s2",
+      "name": "韭菜鸡蛋小笼包",
+      "price": 7
+    },
+    {
+      "id": "d147",
+      "stallId": "c2s2",
+      "name": "香菇油菜小笼包",
+      "price": 7
+    },
+    {
+      "id": "d148",
+      "stallId": "c2s2",
+      "name": "生煎包",
+      "price": 12
+    },
+    {
+      "id": "d149",
+      "stallId": "c2s2",
+      "name": "黑米粥",
+      "price": 2
+    },
+    {
+      "id": "d150",
+      "stallId": "c2s2",
+      "name": "小米南瓜粥",
+      "price": 2
+    },
+    {
+      "id": "d151",
+      "stallId": "c2s2",
+      "name": "绿豆薏米粥",
+      "price": 2
+    },
+    {
+      "id": "d152",
+      "stallId": "c2s2",
+      "name": "红枣银耳粥",
+      "price": 2
+    },
+    {
+      "id": "d153",
+      "stallId": "c2s2",
+      "name": "皮蛋瘦肉粥",
+      "price": 3
+    },
+    {
+      "id": "d154",
+      "stallId": "c2s2",
+      "name": "现磨豆浆",
+      "price": 2.5
+    },
+    {
+      "id": "d155",
+      "stallId": "c2s2",
+      "name": "鲜肉馄饨",
+      "price": 8
+    },
+    {
+      "id": "d156",
+      "stallId": "c2s2",
+      "name": "紫菜鸡蛋汤",
+      "price": 2
+    },
+    {
+      "id": "d157",
+      "stallId": "c2s2",
+      "name": "水饺",
+      "price": 16
+    },
+    {
+      "id": "d160",
+      "stallId": "c2s3",
+      "name": "香辣大盘鸡拌面",
+      "price": 14
+    },
+    {
+      "id": "d161",
+      "stallId": "c2s3",
+      "name": "香辣大盘鸡拌饭",
+      "price": 14
+    },
+    {
+      "id": "d162",
+      "stallId": "c2s3",
+      "name": "酱香大盘鸡拌面",
+      "price": 14
+    },
+    {
+      "id": "d163",
+      "stallId": "c2s3",
+      "name": "酱香大盘鸡拌饭",
+      "price": 14
+    },
+    {
+      "id": "d164",
+      "stallId": "c2s3",
+      "name": "干锅土豆片",
+      "price": 11
+    },
+    {
+      "id": "d165",
+      "stallId": "c2s3",
+      "name": "干锅素什锦",
+      "price": 11
+    },
+    {
+      "id": "d166",
+      "stallId": "c2s3",
+      "name": "干锅方便面",
+      "price": 11
+    },
+    {
+      "id": "d167",
+      "stallId": "c2s3",
+      "name": "干锅千叶豆腐",
+      "price": 11
+    },
+    {
+      "id": "d168",
+      "stallId": "c2s3",
+      "name": "干锅脆骨肠",
+      "price": 12
+    },
+    {
+      "id": "d169",
+      "stallId": "c2s3",
+      "name": "干锅孜然肉",
+      "price": 14
+    },
+    {
+      "id": "d170",
+      "stallId": "c2s3",
+      "name": "干锅椒麻鸡",
+      "price": 13
+    },
+    {
+      "id": "d171",
+      "stallId": "c2s3",
+      "name": "干锅招牌鸡",
+      "price": 13
+    },
+    {
+      "id": "d172",
+      "stallId": "c2s3",
+      "name": "干锅小酥肉",
+      "price": 13
+    },
+    {
+      "id": "d173",
+      "stallId": "c2s3",
+      "name": "干锅酸菜五花肉",
+      "price": 13
+    },
+    {
+      "id": "d174",
+      "stallId": "c2s3",
+      "name": "干锅大鸡排",
+      "price": 12
+    },
+    {
+      "id": "d175",
+      "stallId": "c2s3",
+      "name": "干锅荷包蛋",
+      "price": 12
+    },
+    {
+      "id": "d176",
+      "stallId": "c2s3",
+      "name": "干锅腊肠",
+      "price": 13
+    },
+    {
+      "id": "d177",
+      "stallId": "c2s3",
+      "name": "干锅鸡翅中",
+      "price": 15
+    },
+    {
+      "id": "d178",
+      "stallId": "c2s3",
+      "name": "干锅雪花鸡柳",
+      "price": 12
+    },
+    {
+      "id": "d179",
+      "stallId": "c2s3",
+      "name": "干锅大虾",
+      "price": 15
+    },
+    {
+      "id": "d180",
+      "stallId": "c2s3",
+      "name": "干锅鸡翅根",
+      "price": 14
+    },
+    {
+      "id": "d181",
+      "stallId": "c2s3",
+      "name": "干锅翅中虾",
+      "price": 16
+    },
+    {
+      "id": "d182",
+      "stallId": "c2s3",
+      "name": "中式炸鸡馍",
+      "price": 8
+    },
+    {
+      "id": "d183",
+      "stallId": "c2s3",
+      "name": "芝士烤冷面",
+      "price": 10
+    },
+    {
+      "id": "d184",
+      "stallId": "c2s3",
+      "name": "手工大面筋",
+      "price": 3
+    },
+    {
+      "id": "d185",
+      "stallId": "c2s3",
+      "name": "蛋包芝士火鸡面",
+      "price": 12
+    },
+    {
+      "id": "d190",
+      "stallId": "c2s4",
+      "name": "川湘小炒肉",
+      "price": 15
+    },
+    {
+      "id": "d191",
+      "stallId": "c2s4",
+      "name": "腊肉炒烟笋",
+      "price": 15
+    },
+    {
+      "id": "d192",
+      "stallId": "c2s4",
+      "name": "十八秒猪肝",
+      "price": 16
+    },
+    {
+      "id": "d193",
+      "stallId": "c2s4",
+      "name": "辣椒炒肉",
+      "price": 14
+    },
+    {
+      "id": "d194",
+      "stallId": "c2s4",
+      "name": "孜然小炒肉",
+      "price": 15
+    },
+    {
+      "id": "d195",
+      "stallId": "c2s4",
+      "name": "酸辣藕带",
+      "price": 14
+    },
+    {
+      "id": "d196",
+      "stallId": "c2s4",
+      "name": "手撕包菜",
+      "price": 12
+    },
+    {
+      "id": "d197",
+      "stallId": "c2s4",
+      "name": "湘味下饭菜",
+      "price": 15
+    },
+    {
+      "id": "d198",
+      "stallId": "c2s4",
+      "name": "尖椒炒蛋",
+      "price": 13
+    },
+    {
+      "id": "d199",
+      "stallId": "c2s4",
+      "name": "肉沫蒸蛋",
+      "price": 12
+    },
+    {
+      "id": "d200",
+      "stallId": "c2s4",
+      "name": "酸辣土豆丝",
+      "price": 13
+    },
+    {
+      "id": "d201",
+      "stallId": "c2s4",
+      "name": "农家一碗香",
+      "price": 13
+    },
+    {
+      "id": "d202",
+      "stallId": "c2s4",
+      "name": "荔枝鸡咖喱双拼饭",
+      "price": 13
+    },
+    {
+      "id": "d203",
+      "stallId": "c2s4",
+      "name": "酱骨荔枝鸡双拼饭",
+      "price": 14
+    },
+    {
+      "id": "d204",
+      "stallId": "c2s4",
+      "name": "甜辣鸡卤肉双拼饭",
+      "price": 15
+    },
+    {
+      "id": "d205",
+      "stallId": "c2s4",
+      "name": "糖醋鸡贝贝咖喱饭",
+      "price": 13
+    },
+    {
+      "id": "d206",
+      "stallId": "c2s4",
+      "name": "酱骨甜辣鸡双拼饭",
+      "price": 14
+    },
+    {
+      "id": "d207",
+      "stallId": "c2s4",
+      "name": "卤肉糖醋鸡双拼饭",
+      "price": 15
+    },
+    {
+      "id": "d208",
+      "stallId": "c2s4",
+      "name": "酱骨焖茄子双拼饭",
+      "price": 13
+    },
+    {
+      "id": "d209",
+      "stallId": "c2s4",
+      "name": "卤肉茄子双拼饭",
+      "price": 13
+    },
+    {
+      "id": "d210",
+      "stallId": "c2s4",
+      "name": "咖喱鸡排双拼饭",
+      "price": 13
+    },
+    {
+      "id": "d211",
+      "stallId": "c2s4",
+      "name": "酱骨卤肉双拼饭",
+      "price": 15
+    },
+    {
+      "id": "d212",
+      "stallId": "c2s4",
+      "name": "可乐鸡咖喱双拼饭",
+      "price": 13
+    },
+    {
+      "id": "d220",
+      "stallId": "c2s5",
+      "name": "蔬菜沙拉减脂饭",
+      "price": 11
+    },
+    {
+      "id": "d221",
+      "stallId": "c2s5",
+      "name": "卫龙烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d222",
+      "stallId": "c2s5",
+      "name": "金针菇烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d223",
+      "stallId": "c2s5",
+      "name": "土豆丝烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d224",
+      "stallId": "c2s5",
+      "name": "辣白菜烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d225",
+      "stallId": "c2s5",
+      "name": "杏鲍菇烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d226",
+      "stallId": "c2s5",
+      "name": "奥尔良烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d227",
+      "stallId": "c2s5",
+      "name": "孜然烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d228",
+      "stallId": "c2s5",
+      "name": "火腿烤肉拌饭",
+      "price": 12
+    },
+    {
+      "id": "d229",
+      "stallId": "c2s5",
+      "name": "海苔烤肉拌饭",
+      "price": 13
+    },
+    {
+      "id": "d230",
+      "stallId": "c2s5",
+      "name": "肉松海苔拌饭",
+      "price": 13
+    },
+    {
+      "id": "d231",
+      "stallId": "c2s5",
+      "name": "照烧烤肉拌饭",
+      "price": 13
+    },
+    {
+      "id": "d232",
+      "stallId": "c2s5",
+      "name": "蜜汁烤肉拌饭",
+      "price": 13
+    },
+    {
+      "id": "d233",
+      "stallId": "c2s5",
+      "name": "黑椒烤肉拌饭",
+      "price": 13
+    },
+    {
+      "id": "d234",
+      "stallId": "c2s5",
+      "name": "蜂蜜芥末烤肉拌饭",
+      "price": 13
+    },
+    {
+      "id": "d235",
+      "stallId": "c2s5",
+      "name": "照烧鸡排拌饭",
+      "price": 14
+    },
+    {
+      "id": "d236",
+      "stallId": "c2s5",
+      "name": "蜜汁鸡排拌饭",
+      "price": 13
+    },
+    {
+      "id": "d237",
+      "stallId": "c2s5",
+      "name": "黑椒鸡排拌饭",
+      "price": 13
+    },
+    {
+      "id": "d238",
+      "stallId": "c2s5",
+      "name": "鸡排拼烤肉",
+      "price": 15
+    },
+    {
+      "id": "d239",
+      "stallId": "c2s5",
+      "name": "金针菇寿司",
+      "price": 9
+    },
+    {
+      "id": "d240",
+      "stallId": "c2s5",
+      "name": "酸萝卜寿司",
+      "price": 9
+    },
+    {
+      "id": "d241",
+      "stallId": "c2s5",
+      "name": "辣白菜寿司",
+      "price": 9
+    },
+    {
+      "id": "d242",
+      "stallId": "c2s5",
+      "name": "烤肉寿司",
+      "price": 10
+    },
+    {
+      "id": "d243",
+      "stallId": "c2s5",
+      "name": "牛肉松寿司",
+      "price": 10
+    },
+    {
+      "id": "d244",
+      "stallId": "c2s5",
+      "name": "蟹柳寿司",
+      "price": 10
+    },
+    {
+      "id": "d245",
+      "stallId": "c2s5",
+      "name": "招牌蛋炒饭",
+      "price": 11
+    },
+    {
+      "id": "d246",
+      "stallId": "c2s5",
+      "name": "腊肠蛋炒饭",
+      "price": 12
+    },
+    {
+      "id": "d247",
+      "stallId": "c2s5",
+      "name": "火腿蛋炒饭",
+      "price": 12
+    },
+    {
+      "id": "d248",
+      "stallId": "c2s5",
+      "name": "培根蛋炒饭",
+      "price": 12
+    },
+    {
+      "id": "d249",
+      "stallId": "c2s5",
+      "name": "鸭肠蛋炒饭",
+      "price": 12
+    },
+    {
+      "id": "d250",
+      "stallId": "c2s5",
+      "name": "泡菜鸡肉炒饭",
+      "price": 12
+    },
+    {
+      "id": "d251",
+      "stallId": "c2s5",
+      "name": "奥尔良小炒肉饭",
+      "price": 13
+    },
+    {
+      "id": "d252",
+      "stallId": "c2s5",
+      "name": "孜然小炒肉饭",
+      "price": 13
+    },
+    {
+      "id": "d253",
+      "stallId": "c2s5",
+      "name": "黑椒小炒肉饭",
+      "price": 13
+    },
+    {
+      "id": "d254",
+      "stallId": "c2s5",
+      "name": "多味鸡排炒饭",
+      "price": 13
+    },
+    {
+      "id": "d255",
+      "stallId": "c2s5",
+      "name": "大酱汤饭",
+      "price": 11
+    },
+    {
+      "id": "d256",
+      "stallId": "c2s5",
+      "name": "炒年糕",
+      "price": 12
+    },
+    {
+      "id": "d257",
+      "stallId": "c2s5",
+      "name": "素石锅拌饭",
+      "price": 12
+    },
+    {
+      "id": "d258",
+      "stallId": "c2s5",
+      "name": "鱼饼年糕饭",
+      "price": 12
+    },
+    {
+      "id": "d259",
+      "stallId": "c2s5",
+      "name": "鸡排石锅拌饭",
+      "price": 14
+    },
+    {
+      "id": "d260",
+      "stallId": "c2s5",
+      "name": "牛肉石锅拌饭",
+      "price": 15
+    },
+    {
+      "id": "d261",
+      "stallId": "c2s5",
+      "name": "奥尔良鸡肉石锅饭",
+      "price": 13
+    },
+    {
+      "id": "d262",
+      "stallId": "c2s5",
+      "name": "煎鸡蛋",
+      "price": 1.5
+    },
+    {
+      "id": "d270",
+      "stallId": "c2s6",
+      "name": "招牌烤鸭饭（小份）",
+      "price": 12
+    },
+    {
+      "id": "d271",
+      "stallId": "c2s6",
+      "name": "招牌烤鸭饭（大份）",
+      "price": 15
+    },
+    {
+      "id": "d272",
+      "stallId": "c2s6",
+      "name": "猪肘饭",
+      "price": 15.9
+    },
+    {
+      "id": "d273",
+      "stallId": "c2s6",
+      "name": "照烧鸡腿饭",
+      "price": 12.9
+    },
+    {
+      "id": "d274",
+      "stallId": "c2s6",
+      "name": "整只烤鸭",
+      "price": 19.9
+    },
+    {
+      "id": "d280",
+      "stallId": "c2s7",
+      "name": "招牌鸡肉炒米粉",
+      "price": 13
+    },
+    {
+      "id": "d281",
+      "stallId": "c2s7",
+      "name": "火腿肠炒米粉",
+      "price": 13
+    },
+    {
+      "id": "d282",
+      "stallId": "c2s7",
+      "name": "鱼排蟹排炒米粉",
+      "price": 13
+    },
+    {
+      "id": "d283",
+      "stallId": "c2s7",
+      "name": "纯素多菜炒米粉",
+      "price": 13
+    },
+    {
+      "id": "d284",
+      "stallId": "c2s7",
+      "name": "酸菜鸡肉炒米粉",
+      "price": 15
+    },
+    {
+      "id": "d285",
+      "stallId": "c2s7",
+      "name": "鸡肉多菜炒米粉",
+      "price": 16
+    },
+    {
+      "id": "d286",
+      "stallId": "c2s7",
+      "name": "酸菜牛肉炒米粉",
+      "price": 17
+    },
+    {
+      "id": "d287",
+      "stallId": "c2s7",
+      "name": "全家福炒米粉",
+      "price": 18
+    },
+    {
+      "id": "d288",
+      "stallId": "c2s7",
+      "name": "鸡肉+宽粉双拼炒米粉",
+      "price": 16
+    },
+    {
+      "id": "d289",
+      "stallId": "c2s7",
+      "name": "鸡肉+年糕双拼炒米粉",
+      "price": 16
+    },
+    {
+      "id": "d290",
+      "stallId": "c2s7",
+      "name": "鸡肉贡菜+馕双拼炒米粉",
+      "price": 18
+    },
+    {
+      "id": "d291",
+      "stallId": "c2s7",
+      "name": "牛肉+宽粉双拼炒米粉",
+      "price": 18
+    },
+    {
+      "id": "d292",
+      "stallId": "c2s7",
+      "name": "芝士鸡肉炒米粉",
+      "price": 17
+    },
+    {
+      "id": "d293",
+      "stallId": "c2s7",
+      "name": "鸡肉炒宽粉",
+      "price": 15
+    },
+    {
+      "id": "d294",
+      "stallId": "c2s7",
+      "name": "鸡肉多菜炒宽粉",
+      "price": 16
+    },
+    {
+      "id": "d295",
+      "stallId": "c2s7",
+      "name": "牛肉炒宽粉",
+      "price": 17
+    },
+    {
+      "id": "d296",
+      "stallId": "c2s7",
+      "name": "全家福炒宽粉",
+      "price": 18
+    },
+    {
+      "id": "d297",
+      "stallId": "c2s7",
+      "name": "鸡肉炒馕",
+      "price": 16
+    },
+    {
+      "id": "d298",
+      "stallId": "c2s7",
+      "name": "牛肉炒馕",
+      "price": 18
+    },
+    {
+      "id": "d299",
+      "stallId": "c2s7",
+      "name": "新疆炒五粉",
+      "price": 19
+    },
+    {
+      "id": "d300",
+      "stallId": "c2s7",
+      "name": "招牌牛肉炒米粉",
+      "price": 15
+    },
+    {
+      "id": "d301",
+      "stallId": "c2s7",
+      "name": "粉馕双拼牛肉炒米粉",
+      "price": 18
+    },
+    {
+      "id": "d310",
+      "stallId": "c2s8",
+      "name": "酸汤砂锅面",
+      "price": 11
+    },
+    {
+      "id": "d311",
+      "stallId": "c2s8",
+      "name": "招牌肉卤面",
+      "price": 11
+    },
+    {
+      "id": "d312",
+      "stallId": "c2s8",
+      "name": "原味鸡汤面",
+      "price": 11
+    },
+    {
+      "id": "d313",
+      "stallId": "c2s8",
+      "name": "酸辣鸡汤面",
+      "price": 11
+    },
+    {
+      "id": "d314",
+      "stallId": "c2s8",
+      "name": "什锦砂锅面",
+      "price": 13
+    },
+    {
+      "id": "d315",
+      "stallId": "c2s8",
+      "name": "椒麻鸭块面",
+      "price": 12
+    },
+    {
+      "id": "d316",
+      "stallId": "c2s8",
+      "name": "什锦酸汤面",
+      "price": 13
+    },
+    {
+      "id": "d317",
+      "stallId": "c2s8",
+      "name": "小酥肉番茄面",
+      "price": 13
+    },
+    {
+      "id": "d318",
+      "stallId": "c2s8",
+      "name": "小酥肉金汤面",
+      "price": 13
+    },
+    {
+      "id": "d319",
+      "stallId": "c2s8",
+      "name": "什锦麻酱面",
+      "price": 13
+    },
+    {
+      "id": "d320",
+      "stallId": "c2s8",
+      "name": "农家焖面",
+      "price": 9
+    },
+    {
+      "id": "d321",
+      "stallId": "c2s8",
+      "name": "鸡架拌面",
+      "price": 14
+    },
+    {
+      "id": "d322",
+      "stallId": "c2s8",
+      "name": "小酥肉拌面",
+      "price": 14
+    },
+    {
+      "id": "d323",
+      "stallId": "c2s8",
+      "name": "鸡腿拌面",
+      "price": 15
+    },
+    {
+      "id": "d324",
+      "stallId": "c2s8",
+      "name": "拌鸡架",
+      "price": 10
+    },
+    {
+      "id": "d325",
+      "stallId": "c2s8",
+      "name": "拌鸡腿",
+      "price": 12
+    },
+    {
+      "id": "d326",
+      "stallId": "c2s8",
+      "name": "鸡丝麻酱面",
+      "price": 12
+    },
+    {
+      "id": "d327",
+      "stallId": "c2s8",
+      "name": "招牌麻酱面",
+      "price": 11
+    },
+    {
+      "id": "d328",
+      "stallId": "c2s8",
+      "name": "油泼肉卤面",
+      "price": 13
+    },
+    {
+      "id": "d329",
+      "stallId": "c2s8",
+      "name": "方便面",
+      "price": 5
+    },
+    {
+      "id": "d330",
+      "stallId": "c2s8",
+      "name": "火腿肠",
+      "price": 1.5
+    },
+    {
+      "id": "d331",
+      "stallId": "c2s8",
+      "name": "鸡蛋",
+      "price": 1.5
+    },
+    {
+      "id": "d340",
+      "stallId": "c2s9",
+      "name": "酱肉米线",
+      "price": 12
+    },
+    {
+      "id": "d341",
+      "stallId": "c2s9",
+      "name": "酱肉米线 + 刀削面",
+      "price": 12
+    },
+    {
+      "id": "d342",
+      "stallId": "c2s9",
+      "name": "酱肉米线 + 方便面",
+      "price": 12
+    },
+    {
+      "id": "d343",
+      "stallId": "c2s9",
+      "name": "麻辣豆干米线",
+      "price": 12
+    },
+    {
+      "id": "d344",
+      "stallId": "c2s9",
+      "name": "麻辣豆干米线 + 刀削面",
+      "price": 12
+    },
+    {
+      "id": "d345",
+      "stallId": "c2s9",
+      "name": "原味清汤",
+      "price": 11
+    },
+    {
+      "id": "d346",
+      "stallId": "c2s9",
+      "name": "原味清汤 + 刀削面",
+      "price": 11
+    },
+    {
+      "id": "d347",
+      "stallId": "c2s9",
+      "name": "原味清汤 + 方便面",
+      "price": 11
+    },
+    {
+      "id": "d348",
+      "stallId": "c2s9",
+      "name": "麻辣米线",
+      "price": 11
+    },
+    {
+      "id": "d349",
+      "stallId": "c2s9",
+      "name": "麻辣米线 + 方便面",
+      "price": 11
+    },
+    {
+      "id": "d350",
+      "stallId": "c2s9",
+      "name": "麻辣米线 + 刀削面",
+      "price": 11
+    },
+    {
+      "id": "d351",
+      "stallId": "c2s9",
+      "name": "香辣米线",
+      "price": 11
+    },
+    {
+      "id": "d352",
+      "stallId": "c2s9",
+      "name": "香辣米线 + 刀削面",
+      "price": 11
+    },
+    {
+      "id": "d353",
+      "stallId": "c2s9",
+      "name": "香辣米线 + 方便面",
+      "price": 11
+    },
+    {
+      "id": "d354",
+      "stallId": "c2s9",
+      "name": "燕麦粥",
+      "price": 2
+    },
+    {
+      "id": "d355",
+      "stallId": "c2s9",
+      "name": "椰奶",
+      "price": 2
+    },
+    {
+      "id": "d356",
+      "stallId": "c2s9",
+      "name": "红枣豆浆",
+      "price": 2
+    },
+    {
+      "id": "d357",
+      "stallId": "c2s9",
+      "name": "椰奶燕麦粥",
+      "price": 2
+    },
+    {
+      "id": "d358",
+      "stallId": "c2s9",
+      "name": "鸡蛋火腿肉夹馍",
+      "price": 5
+    },
+    {
+      "id": "d359",
+      "stallId": "c2s9",
+      "name": "鸡蛋豆腐皮肉夹馍",
+      "price": 5
+    },
+    {
+      "id": "d360",
+      "stallId": "c2s9",
+      "name": "火腿豆腐皮肉夹馍",
+      "price": 5
+    },
+    {
+      "id": "d361",
+      "stallId": "c2s9",
+      "name": "火腿鸡蛋豆腐皮肉夹馍",
+      "price": 6
+    },
+    {
+      "id": "d362",
+      "stallId": "c2s9",
+      "name": "火腿豆皮加卫龙肉夹馍",
+      "price": 6
+    },
+    {
+      "id": "d363",
+      "stallId": "c2s9",
+      "name": "鸡蛋火腿加卫龙肉夹馍",
+      "price": 6
+    },
+    {
+      "id": "d364",
+      "stallId": "c2s9",
+      "name": "鸡蛋豆腐皮加卫龙肉夹馍",
+      "price": 6
+    },
+    {
+      "id": "d365",
+      "stallId": "c2s9",
+      "name": "鸡蛋火腿豆腐皮卫龙肉夹馍",
+      "price": 7
+    },
+    {
+      "id": "d366",
+      "stallId": "c2s9",
+      "name": "肉夹馍",
+      "price": 8
+    },
+    {
+      "id": "d367",
+      "stallId": "c2s9",
+      "name": "肉夹馍加火腿",
+      "price": 9
+    },
+    {
+      "id": "d368",
+      "stallId": "c2s9",
+      "name": "肉夹馍加鸡蛋",
+      "price": 9.5
+    },
+    {
+      "id": "d369",
+      "stallId": "c2s9",
+      "name": "肉夹馍加火腿卫龙",
+      "price": 10
+    },
+    {
+      "id": "d370",
+      "stallId": "c2s9",
+      "name": "肉夹馍加鸡蛋火腿",
+      "price": 10.5
+    },
+    {
+      "id": "d371",
+      "stallId": "c2s9",
+      "name": "肉夹馍加鸡蛋卫龙",
+      "price": 10.5
+    },
+    {
+      "id": "d380",
+      "stallId": "c2s10",
+      "name": "可乐",
+      "price": 3
+    },
+    {
+      "id": "d381",
+      "stallId": "c2s10",
+      "name": "雪碧",
+      "price": 3
+    },
+    {
+      "id": "d382",
+      "stallId": "c2s10",
+      "name": "芬达",
+      "price": 3
+    },
+    {
+      "id": "d383",
+      "stallId": "c2s10",
+      "name": "冰鲜柠檬水",
+      "price": 4
+    },
+    {
+      "id": "d384",
+      "stallId": "c2s10",
+      "name": "茉莉柠檬水",
+      "price": 5
+    },
+    {
+      "id": "d385",
+      "stallId": "c2s10",
+      "name": "柠檬红茶",
+      "price": 5
+    },
+    {
+      "id": "d386",
+      "stallId": "c2s10",
+      "name": "酸梅汁",
+      "price": 3
+    },
+    {
+      "id": "d387",
+      "stallId": "c2s10",
+      "name": "柳橙果汁",
+      "price": 3
+    },
+    {
+      "id": "d388",
+      "stallId": "c2s10",
+      "name": "芒果汁",
+      "price": 3
+    },
+    {
+      "id": "d389",
+      "stallId": "c2s10",
+      "name": "葡萄果汁",
+      "price": 3
+    },
+    {
+      "id": "d390",
+      "stallId": "c2s10",
+      "name": "荔枝果汁",
+      "price": 3
+    },
+    {
+      "id": "d391",
+      "stallId": "c2s10",
+      "name": "菠萝果汁",
+      "price": 3
+    },
+    {
+      "id": "d392",
+      "stallId": "c2s10",
+      "name": "茉莉花茶",
+      "price": 3
+    },
+    {
+      "id": "d393",
+      "stallId": "c2s10",
+      "name": "经典红茶",
+      "price": 3
+    },
+    {
+      "id": "d394",
+      "stallId": "c2s10",
+      "name": "经典绿茶",
+      "price": 3
+    },
+    {
+      "id": "d395",
+      "stallId": "c2s10",
+      "name": "白桃乌龙茶",
+      "price": 3
+    },
+    {
+      "id": "d400",
+      "stallId": "c2s11",
+      "name": "川渝自选菜（计重）",
+      "price": 1.78,
+      "unit": "元/50克"
+    },
+    {
+      "id": "d410",
+      "stallId": "c2s12",
+      "name": "招牌黑鸭煲",
+      "price": 13.8
+    },
+    {
+      "id": "d411",
+      "stallId": "c2s12",
+      "name": "金牌酱焖鸭",
+      "price": 13.8
+    },
+    {
+      "id": "d412",
+      "stallId": "c2s12",
+      "name": "黑鸭鸡腿煲",
+      "price": 14.8
+    },
+    {
+      "id": "d413",
+      "stallId": "c2s12",
+      "name": "黑鸭烧肉煲",
+      "price": 15.8
+    },
+    {
+      "id": "d414",
+      "stallId": "c2s12",
+      "name": "黑鸭海带煲",
+      "price": 12.8
+    },
+    {
+      "id": "d415",
+      "stallId": "c2s12",
+      "name": "黑鸭腐竹煲",
+      "price": 12.8
+    },
+    {
+      "id": "d416",
+      "stallId": "c2s12",
+      "name": "黑鸭金针菇煲",
+      "price": 12.8
+    },
+    {
+      "id": "d417",
+      "stallId": "c2s12",
+      "name": "黑鸭花菜煲",
+      "price": 12.8
+    },
+    {
+      "id": "d418",
+      "stallId": "c2s12",
+      "name": "黑鸭木耳煲",
+      "price": 12.8
+    },
+    {
+      "id": "d419",
+      "stallId": "c2s12",
+      "name": "黑鸭茄子煲",
+      "price": 12.8
+    },
+    {
+      "id": "d420",
+      "stallId": "c2s12",
+      "name": "馋嘴土豆片",
+      "price": 10.8
+    },
+    {
+      "id": "d421",
+      "stallId": "c2s12",
+      "name": "馋嘴千页豆腐",
+      "price": 11.8
+    },
+    {
+      "id": "d422",
+      "stallId": "c2s12",
+      "name": "馋嘴宽粉",
+      "price": 11.8
+    },
+    {
+      "id": "d423",
+      "stallId": "c2s12",
+      "name": "馋嘴金针菇",
+      "price": 12.8
+    },
+    {
+      "id": "d424",
+      "stallId": "c2s12",
+      "name": "馋嘴方便面",
+      "price": 12.8
+    },
+    {
+      "id": "d425",
+      "stallId": "c2s12",
+      "name": "馋嘴年糕",
+      "price": 12.8
+    },
+    {
+      "id": "d426",
+      "stallId": "c2s12",
+      "name": "馋嘴鸭血",
+      "price": 12.8
+    },
+    {
+      "id": "d427",
+      "stallId": "c2s12",
+      "name": "馋嘴乌冬面",
+      "price": 12.8
+    },
+    {
+      "id": "d428",
+      "stallId": "c2s12",
+      "name": "馋嘴苕粉",
+      "price": 13.6
+    },
+    {
+      "id": "d429",
+      "stallId": "c2s12",
+      "name": "馋嘴魔芋结",
+      "price": 13.6
+    },
+    {
+      "id": "d430",
+      "stallId": "c2s12",
+      "name": "馋嘴脆骨肠",
+      "price": 13.6
+    },
+    {
+      "id": "d431",
+      "stallId": "c2s12",
+      "name": "馋嘴培根",
+      "price": 13.6
+    },
+    {
+      "id": "d432",
+      "stallId": "c2s12",
+      "name": "金牌馋嘴鸡",
+      "price": 14.6
+    },
+    {
+      "id": "d433",
+      "stallId": "c2s12",
+      "name": "金牌馋嘴鸭",
+      "price": 14.6
+    },
+    {
+      "id": "d434",
+      "stallId": "c2s12",
+      "name": "馋嘴小酥肉",
+      "price": 14.6
+    },
+    {
+      "id": "d435",
+      "stallId": "c2s12",
+      "name": "招牌馋嘴鱼",
+      "price": 15.6
+    },
+    {
+      "id": "d436",
+      "stallId": "c2s12",
+      "name": "香约脆皮鸡饭（大份）",
+      "price": 12.5
+    },
+    {
+      "id": "d437",
+      "stallId": "c2s12",
+      "name": "香约脆皮鸡饭（小份）",
+      "price": 11.5
+    },
+    {
+      "id": "d438",
+      "stallId": "c2s12",
+      "name": "番茄脆皮鸡饭",
+      "price": 12.5
+    },
+    {
+      "id": "d439",
+      "stallId": "c2s12",
+      "name": "香辣脆皮鸡饭",
+      "price": 12.5
+    },
+    {
+      "id": "d440",
+      "stallId": "c2s12",
+      "name": "千岛脆皮鸡饭",
+      "price": 12.5
+    },
+    {
+      "id": "d441",
+      "stallId": "c2s12",
+      "name": "咖喱脆皮鸡饭",
+      "price": 12.5
+    },
+    {
+      "id": "d442",
+      "stallId": "c2s12",
+      "name": "蜜汁脆皮鸡饭",
+      "price": 12.5
+    },
+    {
+      "id": "d443",
+      "stallId": "c2s12",
+      "name": "沙拉脆皮鸡饭",
+      "price": 11.5
+    },
+    {
+      "id": "d444",
+      "stallId": "c2s12",
+      "name": "韩式脆皮鸡饭",
+      "price": 11.5
+    },
+    {
+      "id": "d445",
+      "stallId": "c2s12",
+      "name": "黑胡椒脆皮鸡饭",
+      "price": 11.5
+    },
+    {
+      "id": "d446",
+      "stallId": "c2s12",
+      "name": "蜂蜜芥末脆皮鸡饭",
+      "price": 11.5
+    },
+    {
+      "id": "d447",
+      "stallId": "c2s12",
+      "name": "黑椒鸡排煎肉饭",
+      "price": 13.5
+    },
+    {
+      "id": "d448",
+      "stallId": "c2s12",
+      "name": "照烧鸡排煎肉饭",
+      "price": 13.5
+    },
+    {
+      "id": "d449",
+      "stallId": "c2s12",
+      "name": "咖喱鸡排煎肉饭",
+      "price": 13.5
+    },
+    {
+      "id": "d450",
+      "stallId": "c2s12",
+      "name": "香辣鸡排煎肉饭",
+      "price": 13.5
+    },
+    {
+      "id": "d451",
+      "stallId": "c2s12",
+      "name": "沙拉鸡排煎肉饭",
+      "price": 13.5
+    },
+    {
+      "id": "d452",
+      "stallId": "c2s12",
+      "name": "黑椒猪排煎肉饭",
+      "price": 14.5
+    },
+    {
+      "id": "d453",
+      "stallId": "c2s12",
+      "name": "照烧猪排煎肉饭",
+      "price": 14.5
+    },
+    {
+      "id": "d454",
+      "stallId": "c2s12",
+      "name": "咖喱猪排煎肉饭",
+      "price": 14.5
+    },
+    {
+      "id": "d455",
+      "stallId": "c2s12",
+      "name": "香辣猪排煎肉饭",
+      "price": 14.5
+    },
+    {
+      "id": "d456",
+      "stallId": "c2s12",
+      "name": "沙拉猪排煎肉饭",
+      "price": 14.5
+    },
+    {
+      "id": "d500",
+      "stallId": "c3s1",
+      "name": "牛肉拉面"
+    },
+    {
+      "id": "d501",
+      "stallId": "c3s1",
+      "name": "毛细拉面"
+    },
+    {
+      "id": "d502",
+      "stallId": "c3s1",
+      "name": "牛肉炒面"
+    },
+    {
+      "id": "d510",
+      "stallId": "c3s2",
+      "name": "新疆炒饭"
+    },
+    {
+      "id": "d511",
+      "stallId": "c3s2",
+      "name": "羊肉串"
+    },
+    {
+      "id": "d512",
+      "stallId": "c3s2",
+      "name": "大盘鸡"
+    },
+    {
+      "id": "d513",
+      "stallId": "c3s2",
+      "name": "烤包子"
+    },
+    {
+      "id": "d520",
+      "stallId": "c3s3",
+      "name": "羊肉烧麦"
+    },
+    {
+      "id": "d521",
+      "stallId": "c3s3",
+      "name": "羊杂碎汤"
+    },
+    {
+      "id": "d522",
+      "stallId": "c3s3",
+      "name": "焙子夹肉"
+    },
+    {
+      "id": "d523",
+      "stallId": "c3s3",
+      "name": "手抓饭"
+    },
+    {
+      "id": "d600",
+      "stallId": "c4s1",
+      "name": "宫保鸡丁盖饭"
+    },
+    {
+      "id": "d601",
+      "stallId": "c4s1",
+      "name": "鱼香肉丝盖饭"
+    },
+    {
+      "id": "d602",
+      "stallId": "c4s1",
+      "name": "青椒肉丝盖饭"
+    },
+    {
+      "id": "d603",
+      "stallId": "c4s1",
+      "name": "西红柿鸡蛋盖饭"
+    },
+    {
+      "id": "d700",
+      "stallId": "c5s1",
+      "name": "珍珠奶茶"
+    },
+    {
+      "id": "d701",
+      "stallId": "c5s1",
+      "name": "杨枝甘露"
+    },
+    {
+      "id": "d702",
+      "stallId": "c5s1",
+      "name": "柠檬水"
+    },
+    {
+      "id": "d703",
+      "stallId": "c5s1",
+      "name": "烤肠"
+    },
+    {
+      "id": "d704",
+      "stallId": "c5s1",
+      "name": "鸡排"
+    },
+    {
+      "id": "d705",
+      "stallId": "c5s1",
+      "name": "关东煮"
+    },
+    {
+      "id": "c1d001",
+      "stallId": "c1s1",
+      "name": "拌鸡架",
+      "price": 8
+    },
+    {
+      "id": "c1d002",
+      "stallId": "c1s1",
+      "name": "鸡腿拌面",
+      "price": 15
+    },
+    {
+      "id": "c1d003",
+      "stallId": "c1s1",
+      "name": "煎蛋拌面",
+      "price": 11
+    },
+    {
+      "id": "c1d004",
+      "stallId": "c1s1",
+      "name": "鸡架拌面",
+      "price": 14
+    },
+    {
+      "id": "c1d005",
+      "stallId": "c1s1",
+      "name": "拌鸡腿",
+      "price": 10
+    },
+    {
+      "id": "c1d006",
+      "stallId": "c1s1",
+      "name": "猪肉三鲜水饺",
+      "price": 13
+    },
+    {
+      "id": "c1d007",
+      "stallId": "c1s1",
+      "name": "猪肉酸菜水饺",
+      "price": 13
+    },
+    {
+      "id": "c1d008",
+      "stallId": "c1s1",
+      "name": "猪肉白菜水饺",
+      "price": 13
+    },
+    {
+      "id": "c1d009",
+      "stallId": "c1s1",
+      "name": "猪肉大葱水饺",
+      "price": 13
+    },
+    {
+      "id": "c1d010",
+      "stallId": "c1s1",
+      "name": "猪肉香菇水饺",
+      "price": 13
+    },
+    {
+      "id": "c1d011",
+      "stallId": "c1s1",
+      "name": "韭菜鸡蛋水饺",
+      "price": 13
+    },
+    {
+      "id": "c1d012",
+      "stallId": "c1s1",
+      "name": "金汤馄饨（大）",
+      "price": 10.5
+    },
+    {
+      "id": "c1d013",
+      "stallId": "c1s1",
+      "name": "金汤馄饨（小）",
+      "price": 8.5
+    },
+    {
+      "id": "c1d014",
+      "stallId": "c1s2",
+      "name": "招牌荔枝鸡饭",
+      "price": 12.8
+    },
+    {
+      "id": "c1d015",
+      "stallId": "c1s2",
+      "name": "劲霸炸翅饭",
+      "price": 13.8
+    },
+    {
+      "id": "c1d016",
+      "stallId": "c1s2",
+      "name": "香炸猪脆骨饭",
+      "price": 12.8
+    },
+    {
+      "id": "c1d017",
+      "stallId": "c1s2",
+      "name": "厚切脆鸡排饭",
+      "price": 13.8
+    },
+    {
+      "id": "c1d018",
+      "stallId": "c1s2",
+      "name": "嫩香大排饭",
+      "price": 11.8
+    },
+    {
+      "id": "c1d019",
+      "stallId": "c1s2",
+      "name": "麻辣酱骨饭",
+      "price": 13.8
+    },
+    {
+      "id": "c1d020",
+      "stallId": "c1s2",
+      "name": "日晒番茄牛肉饭",
+      "price": 15.8
+    },
+    {
+      "id": "c1d021",
+      "stallId": "c1s2",
+      "name": "可乐鸡翅饭",
+      "price": 13.8
+    },
+    {
+      "id": "c1d022",
+      "stallId": "c1s2",
+      "name": "椒麻鸡块饭",
+      "price": 12.8
+    },
+    {
+      "id": "c1d023",
+      "stallId": "c1s2",
+      "name": "香菇滑鸡饭",
+      "price": 11.8
+    },
+    {
+      "id": "c1d024",
+      "stallId": "c1s3",
+      "name": "爆炒卤猪肉",
+      "price": 15
+    },
+    {
+      "id": "c1d025",
+      "stallId": "c1s3",
+      "name": "香菇滑鸡",
+      "price": 14
+    },
+    {
+      "id": "c1d026",
+      "stallId": "c1s3",
+      "name": "肉沫荷包蛋",
+      "price": 14
+    },
+    {
+      "id": "c1d027",
+      "stallId": "c1s3",
+      "name": "瓦香小炒鸡",
+      "price": 14
+    },
+    {
+      "id": "c1d028",
+      "stallId": "c1s3",
+      "name": "南昌拌粉",
+      "price": 10
+    },
+    {
+      "id": "c1d029",
+      "stallId": "c1s3",
+      "name": "瓦罐汤套餐",
+      "price": 6,
+      "unit": "元（6~8元）"
+    },
+    {
+      "id": "c1d030",
+      "stallId": "c1s3",
+      "name": "南昌拌粉+任选瓦罐汤",
+      "price": 15
+    },
+    {
+      "id": "c1d031",
+      "stallId": "c1s3",
+      "name": "酸豆角蛋炒饭",
+      "price": 10
+    },
+    {
+      "id": "c1d032",
+      "stallId": "c1s3",
+      "name": "甜玉米蛋炒饭",
+      "price": 11
+    },
+    {
+      "id": "c1d033",
+      "stallId": "c1s3",
+      "name": "鸡蛋火腿蛋炒饭",
+      "price": 11
+    },
+    {
+      "id": "c1d034",
+      "stallId": "c1s3",
+      "name": "广式腊肠蛋炒饭",
+      "price": 12
+    },
+    {
+      "id": "c1d035",
+      "stallId": "c1s3",
+      "name": "肉肠蛋炒饭",
+      "price": 12
+    },
+    {
+      "id": "c1d036",
+      "stallId": "c1s3",
+      "name": "里脊肉蛋炒饭",
+      "price": 12
+    },
+    {
+      "id": "c1d037",
+      "stallId": "c1s3",
+      "name": "卤鸡腿蛋炒饭",
+      "price": 13
+    },
+    {
+      "id": "c1d038",
+      "stallId": "c1s3",
+      "name": "卤猪肘蛋炒饭",
+      "price": 13
+    },
+    {
+      "id": "c1d039",
+      "stallId": "c1s3",
+      "name": "鸭杂蛋炒饭",
+      "price": 13
+    },
+    {
+      "id": "c1d040",
+      "stallId": "c1s3",
+      "name": "虾仁蛋炒饭",
+      "price": 14
+    },
+    {
+      "id": "c1d041",
+      "stallId": "c1s4",
+      "name": "砂锅肉酱米线",
+      "price": 14
+    },
+    {
+      "id": "c1d042",
+      "stallId": "c1s4",
+      "name": "砂锅紫薯粉",
+      "price": 14
+    },
+    {
+      "id": "c1d043",
+      "stallId": "c1s4",
+      "name": "红烧排骨",
+      "price": 15
+    },
+    {
+      "id": "c1d044",
+      "stallId": "c1s4",
+      "name": "糖醋排骨",
+      "price": 15
+    },
+    {
+      "id": "c1d045",
+      "stallId": "c1s4",
+      "name": "糖醋肉段",
+      "price": 15
+    },
+    {
+      "id": "c1d046",
+      "stallId": "c1s4",
+      "name": "溜肉段",
+      "price": 15
+    },
+    {
+      "id": "c1d047",
+      "stallId": "c1s4",
+      "name": "菠萝古咾肉",
+      "price": 15
+    },
+    {
+      "id": "c1d048",
+      "stallId": "c1s4",
+      "name": "咖喱鸡块",
+      "price": 14
+    },
+    {
+      "id": "c1d049",
+      "stallId": "c1s4",
+      "name": "鱼香鸡块",
+      "price": 14
+    },
+    {
+      "id": "c1d050",
+      "stallId": "c1s4",
+      "name": "回锅肉",
+      "price": 14
+    },
+    {
+      "id": "c1d051",
+      "stallId": "c1s4",
+      "name": "过油肉",
+      "price": 14
+    },
+    {
+      "id": "c1d052",
+      "stallId": "c1s4",
+      "name": "排骨烩酸菜",
+      "price": 13
+    },
+    {
+      "id": "c1d053",
+      "stallId": "c1s4",
+      "name": "肉丝炒粉",
+      "price": 13
+    },
+    {
+      "id": "c1d054",
+      "stallId": "c1s4",
+      "name": "鱼香茄条",
+      "price": 13
+    },
+    {
+      "id": "c1d055",
+      "stallId": "c1s4",
+      "name": "鱼香鸡蛋",
+      "price": 13
+    },
+    {
+      "id": "c1d056",
+      "stallId": "c1s4",
+      "name": "孜然肉片",
+      "price": 13
+    },
+    {
+      "id": "c1d057",
+      "stallId": "c1s4",
+      "name": "尖椒肉丝",
+      "price": 13
+    },
+    {
+      "id": "c1d058",
+      "stallId": "c1s4",
+      "name": "京酱肉丝",
+      "price": 13
+    },
+    {
+      "id": "c1d059",
+      "stallId": "c1s4",
+      "name": "榨菜肉丝",
+      "price": 13
+    },
+    {
+      "id": "c1d060",
+      "stallId": "c1s4",
+      "name": "肉末茄子",
+      "price": 13
+    },
+    {
+      "id": "c1d061",
+      "stallId": "c1s4",
+      "name": "烧茄子",
+      "price": 13
+    },
+    {
+      "id": "c1d062",
+      "stallId": "c1s4",
+      "name": "孜然鸡丁",
+      "price": 13
+    },
+    {
+      "id": "c1d063",
+      "stallId": "c1s4",
+      "name": "鱼香肉丝",
+      "price": 13
+    },
+    {
+      "id": "c1d064",
+      "stallId": "c1s4",
+      "name": "宫爆鸡丁",
+      "price": 13
+    },
+    {
+      "id": "c1d065",
+      "stallId": "c1s4",
+      "name": "鱼香小滑肉",
+      "price": 13
+    },
+    {
+      "id": "c1d066",
+      "stallId": "c1s4",
+      "name": "辣肺子",
+      "price": 13
+    },
+    {
+      "id": "c1d067",
+      "stallId": "c1s4",
+      "name": "炒羊杂",
+      "price": 13
+    },
+    {
+      "id": "c1d068",
+      "stallId": "c1s4",
+      "name": "木须肉",
+      "price": 13
+    },
+    {
+      "id": "c1d069",
+      "stallId": "c1s4",
+      "name": "地三鲜",
+      "price": 13
+    },
+    {
+      "id": "c1d070",
+      "stallId": "c1s4",
+      "name": "西红柿炒蛋",
+      "price": 13
+    },
+    {
+      "id": "c1d071",
+      "stallId": "c1s4",
+      "name": "五花肉炒蛋",
+      "price": 13
+    },
+    {
+      "id": "c1d072",
+      "stallId": "c1s4",
+      "name": "过油肉土豆片",
+      "price": 13
+    },
+    {
+      "id": "c1d073",
+      "stallId": "c1s4",
+      "name": "有机菜花",
+      "price": 13
+    },
+    {
+      "id": "c1d074",
+      "stallId": "c1s4",
+      "name": "麻婆豆腐",
+      "price": 13
+    },
+    {
+      "id": "c1d075",
+      "stallId": "c1s4",
+      "name": "黄瓜炒鸡蛋",
+      "price": 13
+    },
+    {
+      "id": "c1d076",
+      "stallId": "c1s4",
+      "name": "家常豆腐",
+      "price": 13
+    },
+    {
+      "id": "c1d077",
+      "stallId": "c1s4",
+      "name": "肉炒腐竹",
+      "price": 13
+    },
+    {
+      "id": "c1d078",
+      "stallId": "c1s4",
+      "name": "酱香鸡蛋",
+      "price": 13
+    },
+    {
+      "id": "c1d079",
+      "stallId": "c1s4",
+      "name": "葱花鸡蛋",
+      "price": 13
+    },
+    {
+      "id": "c1d080",
+      "stallId": "c1s4",
+      "name": "鸭肠炒饭",
+      "price": 11
+    },
+    {
+      "id": "c1d081",
+      "stallId": "c1s4",
+      "name": "扬州炒饭",
+      "price": 11
+    },
+    {
+      "id": "c1d082",
+      "stallId": "c1s5",
+      "name": "猪肉大葱",
+      "price": 13
+    },
+    {
+      "id": "c1d083",
+      "stallId": "c1s5",
+      "name": "猪肉土豆",
+      "price": 12
+    },
+    {
+      "id": "c1d084",
+      "stallId": "c1s5",
+      "name": "猪肉玉米",
+      "price": 13
+    },
+    {
+      "id": "c1d085",
+      "stallId": "c1s5",
+      "name": "韭菜鸡蛋",
+      "price": 11
+    },
+    {
+      "id": "c1d086",
+      "stallId": "c1s5",
+      "name": "猪肉酸菜",
+      "price": 13
+    },
+    {
+      "id": "c1d087",
+      "stallId": "c1s6",
+      "name": "虎皮椒炒肉",
+      "price": 13.9
+    },
+    {
+      "id": "c1d088",
+      "stallId": "c1s6",
+      "name": "虎皮椒五花肉",
+      "price": 14.9
+    },
+    {
+      "id": "c1d089",
+      "stallId": "c1s6",
+      "name": "18秒鸡胗",
+      "price": 14.9
+    },
+    {
+      "id": "c1d090",
+      "stallId": "c1s6",
+      "name": "鱼香肉丝",
+      "price": 13.9
+    },
+    {
+      "id": "c1d091",
+      "stallId": "c1s6",
+      "name": "宫爆鸡丁",
+      "price": 13.9
+    },
+    {
+      "id": "c1d092",
+      "stallId": "c1s6",
+      "name": "肉炒鹿茸菇",
+      "price": 13.9
+    },
+    {
+      "id": "c1d093",
+      "stallId": "c1s6",
+      "name": "小炒牛肉",
+      "price": 17.9
+    },
+    {
+      "id": "c1d094",
+      "stallId": "c1s6",
+      "name": "山野真菌小炒",
+      "price": 12.9
+    },
+    {
+      "id": "c1d095",
+      "stallId": "c1s6",
+      "name": "肉沫土豆丝",
+      "price": 9.9
+    },
+    {
+      "id": "c1d096",
+      "stallId": "c1s6",
+      "name": "蜜汁酥糖鸡",
+      "price": 14.9
+    },
+    {
+      "id": "c1d097",
+      "stallId": "c1s6",
+      "name": "客家小炒肉",
+      "price": 13.9
+    },
+    {
+      "id": "c1d098",
+      "stallId": "c1s6",
+      "name": "腊肉豆干",
+      "price": 13.9
+    },
+    {
+      "id": "c1d099",
+      "stallId": "c1s6",
+      "name": "麻辣豆腐",
+      "price": 9.9
+    },
+    {
+      "id": "c1d100",
+      "stallId": "c1s6",
+      "name": "乡村一碗香",
+      "price": 13.9
+    },
+    {
+      "id": "c1d101",
+      "stallId": "c1s7",
+      "name": "农家一碗香",
+      "price": 14
+    },
+    {
+      "id": "c1d102",
+      "stallId": "c1s7",
+      "name": "辣椒炒肉",
+      "price": 14
+    },
+    {
+      "id": "c1d103",
+      "stallId": "c1s7",
+      "name": "双椒鸡丁",
+      "price": 13
+    },
+    {
+      "id": "c1d104",
+      "stallId": "c1s7",
+      "name": "鱼香肉丝",
+      "price": 14
+    },
+    {
+      "id": "c1d105",
+      "stallId": "c1s7",
+      "name": "爆炒腰花",
+      "price": 15
+    },
+    {
+      "id": "c1d106",
+      "stallId": "c1s7",
+      "name": "爆炒猪肝",
+      "price": 13
+    },
+    {
+      "id": "c1d107",
+      "stallId": "c1s7",
+      "name": "爆炒鸡杂",
+      "price": 14
+    },
+    {
+      "id": "c1d108",
+      "stallId": "c1s7",
+      "name": "肉沫茄子",
+      "price": 12
+    },
+    {
+      "id": "c1d109",
+      "stallId": "c1s8",
+      "name": "牛肉汤",
+      "price": 12
+    },
+    {
+      "id": "c1d110",
+      "stallId": "c1s8",
+      "name": "加肉牛肉汤",
+      "price": 20
+    },
+    {
+      "id": "c1d111",
+      "stallId": "c1s8",
+      "name": "牛肉丸子汤",
+      "price": 13
+    },
+    {
+      "id": "c1d112",
+      "stallId": "c1s8",
+      "name": "烧饼",
+      "price": 2,
+      "unit": "元（2/个）"
+    },
+    {
+      "id": "c1d113",
+      "stallId": "c1s8",
+      "name": "丸子",
+      "price": 2,
+      "unit": "元（2/个）"
+    },
+    {
+      "id": "c1d114",
+      "stallId": "c1s8",
+      "name": "炸蛋",
+      "price": 3,
+      "unit": "元（3/个）"
+    },
+    {
+      "id": "c1d115",
+      "stallId": "c1s9",
+      "name": "烤盘饭",
+      "price": 9.9,
+      "unit": "元/斤起"
+    },
+    {
+      "id": "c1d116",
+      "stallId": "c1s9",
+      "name": "米饭",
+      "price": 1
+    },
+    {
+      "id": "c1d117",
+      "stallId": "c1s10",
+      "name": "秘制把子肉饭",
+      "price": 14
+    },
+    {
+      "id": "c1d118",
+      "stallId": "c1s10",
+      "name": "把子肉卤肉饭",
+      "price": 15
+    },
+    {
+      "id": "c1d119",
+      "stallId": "c1s10",
+      "name": "爆二爷把子肉饭",
+      "price": 14
+    },
+    {
+      "id": "c1d120",
+      "stallId": "c1s10",
+      "name": "秘制卤肉饭",
+      "price": 15
+    },
+    {
+      "id": "c1d121",
+      "stallId": "c1s10",
+      "name": "酱香口水鸡",
+      "price": 14
+    },
+    {
+      "id": "c1d122",
+      "stallId": "c1s10",
+      "name": "招牌手撕鸡",
+      "price": 16
+    },
+    {
+      "id": "c1d123",
+      "stallId": "c1s10",
+      "name": "酱卤鸡肉饭",
+      "price": 14
+    },
+    {
+      "id": "c1d124",
+      "stallId": "c1s10",
+      "name": "秘制鸡腿饭",
+      "price": 14
+    },
+    {
+      "id": "c1d125",
+      "stallId": "c1s10",
+      "name": "塔汁鸡元宝",
+      "price": 10
+    },
+    {
+      "id": "c1d126",
+      "stallId": "c1s10",
+      "name": "酱香卤鸡饭",
+      "price": 14
+    },
+    {
+      "id": "c1d127",
+      "stallId": "c1s11",
+      "name": "麻辣烫",
+      "price": 17.8,
+      "unit": "元/斤"
+    },
+    {
+      "id": "c1d128",
+      "stallId": "c1s12",
+      "name": "大块牛肉焖面",
+      "price": 16
+    },
+    {
+      "id": "c1d129",
+      "stallId": "c1s12",
+      "name": "排骨焖面",
+      "price": 15
+    },
+    {
+      "id": "c1d130",
+      "stallId": "c1s12",
+      "name": "香菇肉臊焖面",
+      "price": 15
+    },
+    {
+      "id": "c1d131",
+      "stallId": "c1s12",
+      "name": "杂丸焖面",
+      "price": 12
+    },
+    {
+      "id": "c1d132",
+      "stallId": "c1s12",
+      "name": "番茄煎蛋焖面",
+      "price": 12
+    },
+    {
+      "id": "c1d133",
+      "stallId": "c1s12",
+      "name": "时蔬焖面",
+      "price": 11
+    },
+    {
+      "id": "c1d134",
+      "stallId": "c1s12",
+      "name": "鸡柳焖面",
+      "price": 13
+    },
+    {
+      "id": "c1d135",
+      "stallId": "c1s12",
+      "name": "小鲜肉焖面",
+      "price": 13
+    },
+    {
+      "id": "c1d136",
+      "stallId": "c1s12",
+      "name": "小酥肉焖面",
+      "price": 13
+    },
+    {
+      "id": "c1d137",
+      "stallId": "c1s12",
+      "name": "鹿茸菌腊肠焖面",
+      "price": 14
+    },
+    {
+      "id": "c1d138",
+      "stallId": "c1s12",
+      "name": "黑猪肉酸菜焖面",
+      "price": 15
+    },
+    {
+      "id": "c1d139",
+      "stallId": "c1s12",
+      "name": "大盘鸡焖面",
+      "price": 13
+    },
+    {
+      "id": "c1d140",
+      "stallId": "c1s13",
+      "name": "大份烤鸭拌饭",
+      "price": 15
+    },
+    {
+      "id": "c1d141",
+      "stallId": "c1s13",
+      "name": "小份烤鸭拌饭",
+      "price": 12
+    },
+    {
+      "id": "c1d142",
+      "stallId": "c1s14",
+      "name": "孜然火腿拌面",
+      "price": 11
+    },
+    {
+      "id": "c1d143",
+      "stallId": "c1s14",
+      "name": "火鸡拌面",
+      "price": 12
+    },
+    {
+      "id": "c1d144",
+      "stallId": "c1s14",
+      "name": "麻酱鸡丝拌面",
+      "price": 10
+    },
+    {
+      "id": "c1d145",
+      "stallId": "c1s14",
+      "name": "秘制炸酱面",
+      "price": 10
+    },
+    {
+      "id": "c1d146",
+      "stallId": "c1s14",
+      "name": "西红柿鸡蛋拌面",
+      "price": 10
+    },
+    {
+      "id": "c1d147",
+      "stallId": "c1s14",
+      "name": "肉燥酸菜拌面",
+      "price": 10
+    },
+    {
+      "id": "c1d148",
+      "stallId": "c1s14",
+      "name": "麻酱拌面",
+      "price": 9
+    },
+    {
+      "id": "c1d149",
+      "stallId": "c1s14",
+      "name": "私房葱油面",
+      "price": 9
+    },
+    {
+      "id": "c1d150",
+      "stallId": "c1s14",
+      "name": "拌骨拌面",
+      "price": 13
+    },
+    {
+      "id": "c1d151",
+      "stallId": "c1s14",
+      "name": "孜然肉拌面",
+      "price": 12
+    },
+    {
+      "id": "c1d152",
+      "stallId": "c1s14",
+      "name": "辣子鸡拌面",
+      "price": 12
+    },
+    {
+      "id": "c1d153",
+      "stallId": "c1s14",
+      "name": "椒麻鸡丝拌面",
+      "price": 12
+    },
+    {
+      "id": "c1d154",
+      "stallId": "c1s14",
+      "name": "馋嘴肉酱拌面",
+      "price": 12
+    },
+    {
+      "id": "c1d155",
+      "stallId": "c1s14",
+      "name": "咸蛋黄肉酱拌面",
+      "price": 12
+    },
+    {
+      "id": "c1d156",
+      "stallId": "c1s14",
+      "name": "咸鸡蛋茄丁拌面",
+      "price": 10
+    },
+    {
+      "id": "c1d157",
+      "stallId": "c1s14",
+      "name": "杏鲍菇茄丁拌面",
+      "price": 10
+    },
+    {
+      "id": "c1d158",
+      "stallId": "c1s14",
+      "name": "肉燥酸豆角拌面",
+      "price": 10
+    },
+    {
+      "id": "c1d159",
+      "stallId": "c1s14",
+      "name": "炸酱+西红柿鸡蛋/杏鲍菇茄丁",
+      "price": 12
+    },
+    {
+      "id": "c1d160",
+      "stallId": "c1s14",
+      "name": "辣子鸡+西红柿鸡蛋/杏鲍菇茄丁",
+      "price": 12
+    },
+    {
+      "id": "c1d161",
+      "stallId": "c1s14",
+      "name": "酸菜肉丝+西红柿鸡蛋/杏鲍菇茄丁",
+      "price": 12
+    },
+    {
+      "id": "c1d162",
+      "stallId": "c1s14",
+      "name": "咸蛋黄+西红柿鸡蛋/杏鲍菇茄丁",
+      "price": 12
+    },
+    {
+      "id": "c1d163",
+      "stallId": "c1s14",
+      "name": "双素拼+西红柿鸡蛋/杏鲍菇茄丁",
+      "price": 10
+    },
+    {
+      "id": "c1d164",
+      "stallId": "c1s14",
+      "name": "大块牛肉汤面",
+      "price": 14
+    },
+    {
+      "id": "c1d165",
+      "stallId": "c1s14",
+      "name": "辣子鸡汤面",
+      "price": 12
+    },
+    {
+      "id": "c1d166",
+      "stallId": "c1s14",
+      "name": "肉燥豆角汤面",
+      "price": 10
+    },
+    {
+      "id": "c1d167",
+      "stallId": "c1s14",
+      "name": "番茄鸡蛋汤面",
+      "price": 9
+    },
+    {
+      "id": "c1d168",
+      "stallId": "c1s14",
+      "name": "肉燥酸菜汤面",
+      "price": 10
+    },
+    {
+      "id": "c1d169",
+      "stallId": "c1s14",
+      "name": "肉燥酸豆角汤面",
+      "price": 10
+    },
+    {
+      "id": "c1d170",
+      "stallId": "c1s14",
+      "name": "杏鲍菇茄丁汤面",
+      "price": 9
+    },
+    {
+      "id": "c1d171",
+      "stallId": "c1s14",
+      "name": "杂骨汤面",
+      "price": 13
+    },
+    {
+      "id": "c1d172",
+      "stallId": "c1s14",
+      "name": "香菇牛肉面",
+      "price": 14
+    },
+    {
+      "id": "c1d173",
+      "stallId": "c1s14",
+      "name": "香菇肉面",
+      "price": 12
+    },
+    {
+      "id": "c1d174",
+      "stallId": "c1s14",
+      "name": "肉沫汤面",
+      "price": 10
+    },
+    {
+      "id": "c1d175",
+      "stallId": "c1s14",
+      "name": "排骨汤面",
+      "price": 13
+    },
+    {
+      "id": "c1d176",
+      "stallId": "c1s14",
+      "name": "番茄牛肉面",
+      "price": 14
+    },
+    {
+      "id": "c1d177",
+      "stallId": "c1s14",
+      "name": "金汤肥牛面",
+      "price": 13
+    },
+    {
+      "id": "c1d178",
+      "stallId": "c1s15",
+      "name": "紫米饭团",
+      "price": 8
+    },
+    {
+      "id": "c1d179",
+      "stallId": "c1s15",
+      "name": "里脊肉饼",
+      "price": 9
+    },
+    {
+      "id": "c1d180",
+      "stallId": "c1s15",
+      "name": "里脊肉拌紫米饭",
+      "price": 15
+    },
+    {
+      "id": "c1d181",
+      "stallId": "c1s15",
+      "name": "芝士片（加料）",
+      "price": 2,
+      "unit": "元（加料）"
+    },
+    {
+      "id": "c1d182",
+      "stallId": "c1s15",
+      "name": "咸鸡蛋黄（加料）",
+      "price": 2,
+      "unit": "元（加料）"
+    },
+    {
+      "id": "c1d183",
+      "stallId": "c1s15",
+      "name": "火山石烤肠（加料）",
+      "price": 3,
+      "unit": "元（加料）"
+    },
+    {
+      "id": "c1d184",
+      "stallId": "c1s15",
+      "name": "咔滋鸡排（加料）",
+      "price": 2,
+      "unit": "元（加料）"
+    },
+    {
+      "id": "c1d185",
+      "stallId": "c1s15",
+      "name": "里脊肉（加料）",
+      "price": 3,
+      "unit": "元（加料）"
+    },
+    {
+      "id": "c1d186",
+      "stallId": "c1s15",
+      "name": "肉夹馍",
+      "price": 9
+    },
+    {
+      "id": "c1d187",
+      "stallId": "c1s15",
+      "name": "鸡蛋火腿夹馍",
+      "price": 8
+    },
+    {
+      "id": "c1d188",
+      "stallId": "c1s15",
+      "name": "小米粥",
+      "price": 3
+    },
+    {
+      "id": "c1d189",
+      "stallId": "c1s15",
+      "name": "裙带菜蛋花汤",
+      "price": 3
+    },
+    {
+      "id": "c1d190",
+      "stallId": "c1s15",
+      "name": "淀粉肠",
+      "price": 3,
+      "unit": "元（3/根 5/2根）"
+    },
+    {
+      "id": "c1d191",
+      "stallId": "c1s15",
+      "name": "红豆桂花小圆子",
+      "price": 8,
+      "unit": "元（8/大 5/小）"
+    },
+    {
+      "id": "c1d192",
+      "stallId": "c1s15",
+      "name": "银耳雪梨汤",
+      "price": 8,
+      "unit": "元（8/大 5/小）"
+    }
+  ]
+}

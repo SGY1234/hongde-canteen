@@ -32,18 +32,13 @@ function lanIps() {
   return out;
 }
 
-/** 找桌面：Windows 的桌面可能被挪到 D 盘，所以几个位置都试一下 */
+/**
+ * 桌面输出目录：统一走 lib/desktop-dir.js。
+ * 它会优先选桌面上的「鸿德食堂打分-上线文件」文件夹，
+ * 绝不把二维码等文件散落到桌面根目录（用户明确要求过）。
+ */
 function findDesktop() {
-  const candidates = [
-    process.env.USERPROFILE && path.join(process.env.USERPROFILE, 'Desktop'),
-    'D:\\Users\\30205\\Desktop',
-    'C:\\Users\\30205\\Desktop',
-    path.join(os.homedir(), 'Desktop')
-  ].filter(Boolean);
-  for (const p of candidates) {
-    try { if (fs.existsSync(p)) return p; } catch (e) { /* 忽略 */ }
-  }
-  return null;
+  return require('../lib/desktop-dir.js').resolveOutDir();
 }
 
 const args = process.argv.slice(2);
@@ -144,6 +139,18 @@ if (toDesktop) {
   else console.log('  ⚠️ 找不到桌面文件夹，跳过');
 }
 
+// 现成的群发文案：用户直接复制到班群即可（省得自己想怎么说）
+const groupText = [
+  '【鸿德食堂打分】想让大家一起投出「哪个窗口最好吃」，麻烦花 10 秒投一票 🙏',
+  '',
+  '👉 点这个链接就能打分（不用下载、不用注册）：',
+  url,
+  '',
+  '或者直接扫我发的二维码图片。',
+  '选你吃过的窗口和菜，点星星提交就行。',
+  '每个菜每天只能投一次，投完能看到实时排名。'
+].join('\r\n') + '\r\n';
+
 for (const t of targets) {
   try {
     fs.mkdirSync(t.dir, { recursive: true });
@@ -154,12 +161,16 @@ for (const t of targets) {
     // 直接发图片则点开就能长按识别。
     fs.writeFileSync(path.join(t.dir, '鸿德食堂打分-二维码.png'), pngShare);
     fs.writeFileSync(path.join(t.dir, '鸿德食堂打分-二维码-高清.png'), pngPrint);
+    fs.writeFileSync(path.join(t.dir, '发给同学的话.txt'), groupText, 'utf8');
     console.log('  ✅ 已输出到 ' + t.dir + ' ' + t.tag);
   } catch (e) {
     console.log('  ❌ 写不了 ' + t.dir + '：' + e.message);
   }
 }
-console.log('\n发给同学请用【鸿德食堂打分-二维码.png】这张图片（发图片，不要发 html 附件）。');
-console.log('要打印贴墙上就用【鸿德食堂打分-二维码-高清.png】或 .svg。');
-console.log('HTML 文件适合自己双击预览/打印。');
+console.log('\n【怎么发到班群】两种方式，任选一种：');
+console.log('  1) 发图片：直接把【鸿德食堂打分-二维码.png】当图片发出去（同学点开长按识别）');
+console.log('  2) 发文字：打开【发给同学的话.txt】，全选复制，粘到群里（含可点击的链接）');
+console.log('\n⚠️ 不要把 .html 文件发到微信里——微信打开 HTML 附件经常渲染不出二维码。');
+console.log('打印贴墙上用【鸿德食堂打分-二维码-高清.png】或 .svg。');
+
 
