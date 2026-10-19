@@ -111,6 +111,55 @@ main{padding:12px}
 .form-msg.ok{color:var(--ok)}
 .form-msg.err{color:var(--danger)}
 
+/* ---------- 问题反馈（同学只提交，不直接改数据） ---------- */
+.fb-link{
+  display:block;width:100%;margin-top:10px;padding:10px 0;
+  background:none;border:0;color:#8a8a8a;font-size:13px;
+  text-decoration:underline;text-underline-offset:3px;
+}
+.fb-link:active{color:#111}
+
+.sheet-mask{
+  position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.42);
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.sheet-mask[hidden]{display:none}
+.sheet{
+  width:100%;max-width:520px;max-height:88vh;overflow-y:auto;background:#fff;
+  border-radius:16px 16px 0 0;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  animation:sheetUp .18s ease-out;
+}
+@keyframes sheetUp{from{transform:translateY(24px);opacity:.6}to{transform:translateY(0);opacity:1}}
+.sheet-head{
+  position:sticky;top:0;background:#fff;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 16px;border-bottom:1px solid var(--line);
+}
+.sheet-title{font-size:16px;font-weight:700}
+.sheet-close{
+  width:30px;height:30px;border:0;background:#f2f2f2;border-radius:50%;
+  color:#666;font-size:19px;line-height:1;
+}
+.sheet-body{padding:14px 16px 4px}
+.fb-dish{
+  background:#fafafa;border:1px solid var(--line);border-radius:10px;
+  padding:10px 12px;font-size:14px;color:#444;margin-bottom:14px;word-break:break-all;
+}
+.fb-kinds{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fb-kind{
+  font-size:13px;color:#555;background:#f5f5f5;border:1px solid #e8e8e8;
+  border-radius:999px;padding:8px 13px;
+}
+.fb-kind.on{background:#111;color:#fff;border-color:#111}
+.fb-text{
+  width:100%;min-height:82px;padding:11px 13px;font-size:15px;line-height:1.6;
+  background:#fafafa;border:1px solid #e0e0e0;border-radius:10px;
+  font-family:inherit;resize:vertical;
+}
+.fb-text:focus{outline:none;border-color:var(--active)}
+.fb-count{font-size:12px;color:#bbb;text-align:right;margin:4px 2px 14px}
+.fb-tip{font-size:12px;color:#a8a8a8;line-height:1.7;margin-top:12px;text-align:center}
+
 /* ---------- 榜单 ---------- */
 .board{background:#fff;border-radius:14px;border:1px solid var(--line);overflow:hidden}
 .board-head{

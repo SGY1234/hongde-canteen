@@ -195,6 +195,71 @@ check('≥5 人才进榜的门槛在前后端都体现', () => {
   assert.strictEqual(menu.campuses.filter((c) => c.active).length, 1, '必须且只能有一个默认校区');
 });
 
+/* ---------- 6. 问题反馈：接线 + 需求红线 ---------- */
+console.log('\n【5】问题反馈（同学只能报错，不能改数据）');
+
+const adminHtml = fs.readFileSync(path.join(ROOT, 'public', 'admin.html'), 'utf8');
+const adminJs = fs.readFileSync(path.join(ROOT, 'public', 'admin.js'), 'utf8');
+const adminHtmlIds = new Set([...adminHtml.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]));
+const adminJsIds = new Set([...adminJs.matchAll(/\$\('([^']+)'\)/g)].map((m) => m[1]));
+
+check('管理页 app.js 引用的每个 id 都存在（防白屏）', () => {
+  const missing = [...adminJsIds].filter((id) => !adminHtmlIds.has(id));
+  assert.strictEqual(missing.length, 0,
+    'admin.js 引用了 admin.html 里不存在的 id: ' + missing.join(', '));
+});
+
+check('管理页 id 没有重复', () => {
+  const all = [...adminHtml.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
+  const dup = all.filter((id, i) => all.indexOf(id) !== i);
+  assert.strictEqual(dup.length, 0, '重复 id: ' + [...new Set(dup)].join(', '));
+});
+
+check('同学端有反馈入口，且提交走 POST /api/feedback', () => {
+  assert.ok(htmlIds.has('btnFeedback'), 'index.html 缺少反馈入口按钮 #btnFeedback');
+  assert.ok(/api\('\/api\/feedback'/.test(js), 'app.js 没有调用 /api/feedback');
+  assert.ok(/method:\s*'POST'/.test(js.slice(js.indexOf("api('/api/feedback'"), js.indexOf("api('/api/feedback'") + 200)),
+    '提交反馈必须是 POST');
+});
+
+check('同学端只有「提交」，没有任何修改数据的入口（需求红线）', () => {
+  // 前端不许出现 PATCH/PUT/DELETE，也不许调 resolve 接口
+  assert.ok(!/method:\s*'(PUT|PATCH|DELETE)'/.test(js), '同学端出现了修改数据的请求方法');
+  assert.ok(!/feedback\/resolve/.test(js), '同学端竟然能调管理接口');
+  assert.ok(!/feedback\/list/.test(js), '同学端竟然能看别人的反馈');
+  // 菜单只读：前端不许尝试改菜单
+  assert.ok(!/api\('\/api\/menu'[^)]*method/.test(js), '同学端在改菜单');
+});
+
+check('管理页只在本机可用（后端 403 兜底，前端也有提示）', () => {
+  assert.ok(/isLocalRequest/.test(server), '后端缺少本机判定');
+  assert.ok(/checkAdmin/.test(server), '后端缺少管理权限检查');
+  assert.ok(/只能在这台电脑上打开/.test(server), '后端缺少中文拒绝提示');
+  assert.ok(/权限不足|只能在本机打开/.test(adminJs), '管理页缺少权限不足的提示');
+});
+
+check('反馈内容在管理页做了转义（防 XSS）', () => {
+  assert.ok(/esc\(it\.text\)/.test(adminJs), '管理页没转义反馈内容');
+  assert.ok(/esc\(it\.id\)/.test(adminJs), '管理页没转义编号');
+});
+
+check('反馈存储用原子写（断电不会写出半个坏文件）', () => {
+  const fbSrc = fs.readFileSync(path.join(ROOT, 'server', 'feedback.js'), 'utf8');
+  assert.ok(/renameSync/.test(fbSrc), '缺少原子替换（tmp + rename）');
+  assert.ok(/_serial/.test(fbSrc), '缺少串行队列（并发提交会互相覆盖）');
+  assert.ok(/sha12|ipHash/.test(fbSrc), '缺少 IP 哈希（不能存明文 IP）');
+});
+
+check('云函数打包清单包含 feedback 模块（漏了线上就 500）', () => {
+  const buildSrc = fs.readFileSync(path.join(ROOT, 'scripts', 'build-function.js'), 'utf8');
+  assert.ok(/id:\s*'feedback'/.test(buildSrc), 'build-function.js 的 MODULES 里没有 feedback');
+});
+
+check('反馈页没有引入外部资源 / 第三方依赖', () => {
+  const externals = [...adminHtml.matchAll(/(?:src|href)="(https?:\/\/[^"]+)"/g)].map((m) => m[1]);
+  assert.strictEqual(externals.length, 0, '管理页引入了外部资源: ' + externals.join(', '));
+});
+
 console.log('\n════════════════════════════════════════');
 console.log('  通过 ' + passed + ' 项，失败 ' + failed + ' 项');
 if (failed) {

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>菜单问题反馈 · 管理页</title>
+<link rel="stylesheet" href="/style.css">
+<style>
+  /* 管理页只用一点点额外样式，其余复用主样式表，保持视觉一致 */
+  .adm-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .adm-refresh{
+    border:1px solid #e0e0e0;background:#fff;border-radius:9px;
+    padding:7px 12px;font-size:13px;color:#444;
+  }
+  .adm-tabs{display:flex;gap:8px;margin:12px 0}
+  .adm-tab{
+    flex:1;border:1px solid #e0e0e0;background:#fff;border-radius:10px;
+    padding:9px 0;font-size:13px;color:#666;
+  }
+  .adm-tab.on{background:#111;color:#fff;border-color:#111}
+  .fb-item{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px;margin-bottom:10px}
+  .fb-item.done{opacity:.62}
+  .fb-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+  .fb-tag{
+    font-size:12px;background:#f2f2f2;color:#666;border-radius:999px;padding:3px 10px;
+  }
+  /* 状态用深浅+边框区分，不用彩色：和主站"白底黑字"的调子保持一致 */
+  .fb-tag.st-open{background:#e9e9e9;color:#111;font-weight:600}
+  .fb-tag.st-done{background:#f7f7f7;color:#999}
+  .fb-tag.st-ignored{background:#fafafa;color:#bbb;border:1px solid #eee}
+  .fb-where{font-size:14px;font-weight:600;word-break:break-all}
+  .fb-what{font-size:14px;color:#333;line-height:1.65;margin:6px 0;word-break:break-all;
+    background:#fafafa;border-radius:8px;padding:9px 11px}
+  .fb-when{font-size:12px;color:#aaa}
+  .fb-acts{display:flex;gap:8px;margin-top:10px}
+  .fb-btn{
+    flex:1;border:1px solid #e0e0e0;background:#fff;border-radius:9px;
+    padding:9px 0;font-size:13px;color:#444;
+  }
+  .fb-btn.primary{background:#111;color:#fff;border-color:#111}
+  .adm-empty{padding:44px 16px;text-align:center;color:#8a8a8a;font-size:14px;line-height:1.9}
+  .adm-count{font-size:12px;color:#8a8a8a;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="adm-top">
+    <div class="topbar-title">菜单问题反馈</div>
+    <button class="adm-refresh" id="admRefresh" type="button">刷新</button>
+  </div>
+  <div class="topbar-sub" id="admSub">只有在这台电脑上才能看</div>
+</div>
+
+<main>
+  <div class="adm-tabs">
+    <button class="adm-tab on" data-scope="open" type="button">待处理</button>
+    <button class="adm-tab" data-scope="all" type="button">全部</button>
+  </div>
+  <div class="adm-count" id="admCount"></div>
+  <div id="admList"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="/admin.js"></script>
+</body>
+</html>

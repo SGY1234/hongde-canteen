@@ -540,6 +540,178 @@ module.exports = { FileStore, FeishuStore, makeKey };
 
 });
 
+// ════════ 内联模块：server/feedback.js ════════
+__define("feedback", function (module, exports, require) {
+'use strict';
+/**
+ * 问题反馈存储 —— 同学报错，管理员（用户/我）改菜单
+ *
+ * 为什么要这个：菜单是拍照识别的，一定有认错的（菜名、价格、漏菜、已下架）。
+ * 让同学自己改数据 = 谁都能篡改榜单，绝对不行。
+ * 所以这里只做"收集"：同学提交 -> 落盘 -> 管理员看了去改菜单 -> 标记已处理。
+ *
+ * 设计要点（都踩过坑）：
+ *   1. 原子写 + 串行队列：和 ratings.json 一样，并发提交不会互相覆盖
+ *   2. 最多留 2000 条：避免文件无限长大（同学手滑刷屏也不会撑爆）
+ *   3. 不存原始 IP，只存哈希：和打分明细一个口径，不泄露隐私
+ *   4. 零依赖：不引数据库，一个 JSON 文件搞定
+ */
+
+const fs = require('fs');
+const path = require('path');
+const crypto = require('crypto');
+
+/** 反馈类型白名单（前端按钮的 key，中文在 KIND_TEXT 里） */
+const KINDS = ['price', 'name', 'extra', 'missing', 'stall', 'other'];
+
+/** 类型 -> 中文名（后端存 key，展示用中文，改文案只改这里） */
+const KIND_TEXT = {
+  price: '价格不对',
+  name: '菜名写错了',
+  extra: '这家没这道菜',
+  missing: '还有菜没录进来',
+  stall: '档口/窗口写错了',
+  other: '其他问题'
+};
+
+/** 状态：open=待处理，done=已改好，ignored=不用改 */
+const STATUS_TEXT = { open: '待处理', done: '已处理', ignored: '已忽略' };
+
+function sha12(s) {
+  return crypto.createHash('sha256').update(String(s) + '|hongde-fb').digest('hex').slice(0, 12);
+}
+
+class FeedbackStore {
+  /**
+   * @param {string|object} fileOrOpts 字符串=文件路径；对象={file, max}
+   */
+  constructor(fileOrOpts) {
+    const opts = typeof fileOrOpts === 'string' ? { file: fileOrOpts } : (fileOrOpts || {});
+    this.file = opts.file;
+    this.max = opts.max || 2000;
+    this.queue = Promise.resolve();   // 串行队列，和 FileStore 一个思路
+  }
+
+  /** 排队执行，保证并发提交不互相覆盖 */
+  _serial(fn) {
+    const run = this.queue.then(fn, fn);
+    // 无论成功失败都要把队列推进下去，否则一次报错就永久卡死
+    this.queue = run.then(() => {}, () => {});
+    return run;
+  }
+
+  _read() {
+    try {
+      const data = JSON.parse(fs.readFileSync(this.file, 'utf8'));
+      if (Array.isArray(data)) return data;             // 兼容直接存数组的老格式
+      if (data && Array.isArray(data.items)) return data.items;
+    } catch (e) { /* 文件不存在或坏了，当空处理 */ }
+    return [];
+  }
+
+  _write(items) {
+    const dir = path.dirname(this.file);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    const tmp = this.file + '.tmp' + process.pid;
+    // 存成 {items:[...]} 而不是裸数组，将来加字段（比如统计信息）不用改结构
+    fs.writeFileSync(tmp, JSON.stringify({ items }, null, 2), 'utf8');
+    fs.renameSync(tmp, this.file);   // 原子替换，断电不会写出半个坏 JSON
+  }
+
+  /**
+   * 新增一条反馈
+   * @param {{kind:string, dishId?:string, dishName?:string, stallId?:string,
+   *          stallName?:string, canteenId?:string, canteenName?:string,
+   *          text?:string, ip?:string}} input
+   */
+  add(input) {
+    return this._serial(() => {
+      const items = this._read();
+      const now = new Date();
+      const item = {
+        id: 'fb' + now.getTime().toString(36) + Math.random().toString(36).slice(2, 6),
+        at: now.toISOString(),
+        kind: KINDS.indexOf(input.kind) >= 0 ? input.kind : 'other',
+        dishId: String(input.dishId || '').slice(0, 64),
+        dishName: String(input.dishName || '').slice(0, 60),
+        stallId: String(input.stallId || '').slice(0, 64),
+        stallName: String(input.stallName || '').slice(0, 60),
+        canteenId: String(input.canteenId || '').slice(0, 64),
+        canteenName: String(input.canteenName || '').slice(0, 60),
+        text: String(input.text || '').trim().slice(0, 200),
+        ipHash: input.ip ? sha12(input.ip) : '',
+        status: 'open'
+      };
+      items.push(item);
+      // 超上限从最旧的删，但**绝不删未处理的**：先删已处理的旧记录
+      if (items.length > this.max) {
+        const keep = [];
+        let over = items.length - this.max;
+        for (let i = 0; i < items.length; i++) {
+          const it = items[i];
+          if (over > 0 && it.status !== 'open') { over--; continue; }
+          keep.push(it);
+        }
+        // 已处理的删完了还超，就只能从头砍（极端情况）
+        const final = keep.length > this.max ? keep.slice(keep.length - this.max) : keep;
+        this._write(final);
+        return { item, total: final.length };
+      }
+      this._write(items);
+      return { item, total: items.length };
+    });
+  }
+
+  /** 列表（管理员用）：默认只给待处理的，all=1 给全部 */
+  list(opts) {
+    const o = opts || {};
+    return this._serial(() => {
+      let items = this._read();
+      if (!o.all) items = items.filter((it) => it.status === 'open');
+      // 新的排前面：管理员最先看到最新报的
+      items = items.slice().reverse();
+      if (o.limit) items = items.slice(0, o.limit);
+      const counts = { open: 0, done: 0, ignored: 0 };
+      this._read().forEach((it) => { counts[it.status] = (counts[it.status] || 0) + 1; });
+      return { items, counts, total: counts.open + counts.done + counts.ignored };
+    });
+  }
+
+  /** 改状态：done / ignored / open（撤回） */
+  setStatus(id, status, note) {
+    return this._serial(() => {
+      const items = this._read();
+      const it = items.find((x) => x.id === id);
+      if (!it) return null;
+      if (['open', 'done', 'ignored'].indexOf(status) < 0) return null;
+      it.status = status;
+      if (status === 'open') {
+        delete it.resolvedAt;
+        delete it.resolveNote;
+      } else {
+        it.resolvedAt = new Date().toISOString();
+        it.resolveNote = String(note || '').slice(0, 200);
+      }
+      this._write(items);
+      return it;
+    });
+  }
+
+  /** 同一个人对同一道菜，一天最多报 2 次（防止手滑连点） */
+  countTodayByIpDish(ipHash, dishId, date) {
+    return this._serial(() => {
+      const prefix = String(date || '').slice(0, 10);
+      return this._read().filter((it) =>
+        it.ipHash === ipHash && it.dishId === dishId && String(it.at).slice(0, 10) === prefix
+      ).length;
+    });
+  }
+}
+
+module.exports = { FeedbackStore, KINDS, KIND_TEXT, STATUS_TEXT, sha12 };
+
+});
+
 // ════════ 内联模块：server/local.js ════════
 __define("local", function (module, exports, require) {
 'use strict';
@@ -563,6 +735,7 @@ const os = require('os');
 
 const rankings = __require('rankings');
 const stores = __require('store');
+const feedback = __require('feedback');
 
 const ROOT = path.resolve(__dirname, '..');
 const PUBLIC_DIR = path.join(ROOT, 'public');
@@ -650,6 +823,16 @@ function makeFileStore() {
 }
 
 let store = USE_FEISHU ? new stores.FeishuStore(FEISHU_CFG) : makeFileStore();
+
+/**
+ * 问题反馈存储（同学报菜单错误用）。
+ * 为什么单独一个文件：反馈和打分是两回事，混在一张表里既难查也容易互相干扰；
+ * 而且反馈量小、要人工看，单独存最省事。
+ */
+const FEEDBACK = new feedback.FeedbackStore({
+  file: path.join(DATA_DIR, 'feedback.json'),
+  max: 2000
+});
 
 /**
  * 启动时探测飞书是否可用。
@@ -867,10 +1050,61 @@ function beijingDate(ts = Date.now()) {
   return d.getUTCFullYear() + '-' + mm + '-' + dd;
 }
 
+/**
+ * 取客户端 IP —— 只认可信来源，绝不认客户端自己写的头。
+ *
+ * 优先级：
+ *   1. cf-connecting-ip —— Cloudflare 边缘节点在转发时写进去的，客户端改不掉。
+ *      走隧道（同学手机）的请求一定有这个头，所以拿它当防刷依据最可靠。
+ *   2. socket 地址 —— 本机直连（127.0.0.1）时用。
+ *
+ * ⚠️ 以前这里优先取 x-forwarded-for，那是**客户端可以随便伪造**的头：
+ *    任何人发一个 "X-Forwarded-For: 127.0.0.1" 就能冒充本机管理员，
+ *    也能靠换着写不同的 XFF 绕过"同一人同一天只能给同一道菜打一次分"。
+ *    2026-10-19 公网验证实测过这个漏洞，所以彻底不看 XFF 了。
+ */
 function clientIp(headers, socketIp) {
-  const xff = headers['x-forwarded-for'] || headers['x-real-ip'] || '';
-  const first = String(xff).split(',')[0].trim();
-  return first || socketIp || 'unknown';
+  const h = headers || {};
+  // ① 走 Cloudflare 隧道的请求：边缘节点写的头，客户端伪造不了
+  const cf = String(h['cf-connecting-ip'] || '').trim();
+  if (cf) return cf;
+
+  // ② 本机直连（没有 Cloudflare 头的环回请求）：
+  //    允许用 X-Forwarded-For 模拟"不同的人"来测防刷 —— 只有测试脚本会这么干。
+  //    因为人已经坐在本机了，伪造 IP 骗不到任何权限（权限判定不看这个值）。
+  if (isLoopbackAddr(socketIp) && !h['cf-ray'] && !h['cf-visitor']) {
+    const xff = String(h['x-forwarded-for'] || h['x-real-ip'] || '').split(',')[0].trim();
+    if (xff) return xff;
+  }
+
+  return socketIp || 'unknown';
+}
+
+/**
+ * 判断"是不是真的坐在这台电脑前打开的页面"。
+ *
+ * 为什么不能只看 socket 地址：cloudflared 也跑在本机，隧道转进来的请求
+ * 到达服务时 socket 同样是 127.0.0.1 —— 只看 socket 会把全校同学都当成本机管理员。
+ *
+ * 所以要求三条同时满足：
+ *   1. 请求头里没有 cf-connecting-ip / cf-ray（有 = 经过 Cloudflare，来自公网）
+ *   2. Host 就是本机地址（127.0.0.1 / localhost），不是隧道域名
+ *   3. socket 是环回地址
+ */
+function isLoopbackAddr(ip) {
+  const s = String(ip || '');
+  return s === '127.0.0.1' || s === '::1' || s === '::ffff:127.0.0.1';
+}
+
+function isLocalRequest(ctx) {
+  const h = (ctx && ctx.headers) || {};
+  if (h['cf-connecting-ip'] || h['cf-ray'] || h['cf-visitor']) return false;
+  const host = String(h.host || h['x-forwarded-host'] || '').toLowerCase();
+  const hostName = host.replace(/:\d+$/, '');
+  if (hostName !== '127.0.0.1' && hostName !== 'localhost' && hostName !== '[::1]') return false;
+  // 只认 socket 原始地址：环回才是真的坐在本机前。
+  // 不能拿 ctx.ip 兜底 —— 那是可伪造的 XFF，一兜底漏洞就回来了。
+  return isLoopbackAddr(ctx && ctx.socketIp);
 }
 
 function hashIp(ip) {
@@ -1026,6 +1260,111 @@ async function apiStats() {
   };
 }
 
+/* ============================ 问题反馈 ============================ */
+/**
+ * 同学提交菜单问题（菜名错、价格错、没这道菜、漏了菜）。
+ *
+ * 为什么要这个：菜单是拍照识别的，一定有错；但让同学直接改数据 = 谁都能篡改榜单。
+ * 所以这里只收不改 —— 落到 data/feedback.json，管理员看了再改菜单。
+ */
+async function apiFeedbackCreate(body, ctx) {
+  const kind = String(body.kind || '').trim();
+  const dishId = String(body.dishId || '').trim();
+  const text = String(body.text || '').trim().slice(0, 200);
+
+  if (feedback.KINDS.indexOf(kind) < 0) throw badRequest('请选择问题类型');
+  // 「其他问题」和「漏了菜」可以不带菜品；其余必须指明是哪道菜
+  const needDish = kind !== 'other' && kind !== 'missing';
+  if (needDish && !dishId) throw badRequest('请先选择是哪道菜有问题');
+  if (!text) throw badRequest('请简单写一句哪里不对（比如"实际卖 12 元"）');
+
+  const idx = menuIndex();
+  const dish = dishId ? idx.dishById.get(dishId) : null;
+  if (dishId && !dish) throw badRequest('菜品不存在，请刷新页面重试');
+  const stall = dish ? (idx.stallById.get(dish.stallId) || {}) : {};
+  const canteen = dish ? (idx.canteenById.get(stall.canteenId) || {}) : {};
+
+  // 防刷：同一个人 + 同一道菜，一天最多报 2 次（够用了，防手滑连点）
+  const ipHash = feedback.sha12(ctx.ip);
+  const todayCount = await FEEDBACK.countTodayByIpDish(ipHash, dishId, ctx.date);
+  if (todayCount >= 2) {
+    const e = new Error('这道菜你今天已经报过 2 次了，我这边能看到，会尽快改～');
+    e.status = 429;
+    throw e;
+  }
+
+  const { item } = await FEEDBACK.add({
+    kind,
+    dishId,
+    dishName: dish ? dish.name : '',
+    stallId: stall.id || '',
+    stallName: stall.name || '',
+    canteenId: canteen.id || '',
+    canteenName: canteen.name || '',
+    text,
+    ip: ctx.ip
+  });
+
+  return {
+    ok: true,
+    id: item.id,
+    kindText: feedback.KIND_TEXT[item.kind],
+    message: '收到！我看到后会去改菜单，谢谢你帮同学把关 🙏'
+  };
+}
+
+/**
+ * 管理接口的通行证。
+ * 默认策略：只允许本机访问 —— 这样同学从公网进不来，我不需要给用户设密码。
+ * 如果哪天要在别的电脑上看，设环境变量 HD_ADMIN_KEY，带 ?key= 就能进。
+ */
+function checkAdmin(query, ctx) {
+  const key = process.env.HD_ADMIN_KEY;
+  if (key) {
+    if (String(query.key || '') === key) return;
+    const e = new Error('管理口令不对');
+    e.status = 403;
+    throw e;
+  }
+  if (isLocalRequest(ctx)) return;
+  const e = new Error('管理页面只能在这台电脑上打开（http://127.0.0.1:5173/admin.html）');
+  e.status = 403;
+  throw e;
+}
+
+/** 管理员：看待处理反馈 */
+async function apiFeedbackList(query, ctx) {
+  checkAdmin(query, ctx);
+  const data = await FEEDBACK.list({
+    all: query.all === '1',
+    limit: Math.min(500, Math.max(1, Number(query.limit) || 200))
+  });
+  // 附上中文类型名，前端直接显示，不用再维护一份映射
+  data.items.forEach((it) => {
+    it.kindText = feedback.KIND_TEXT[it.kind] || '其他问题';
+    it.statusText = feedback.STATUS_TEXT[it.status] || it.status;
+  });
+  return data;
+}
+
+/** 管理员：标记已处理 / 忽略 */
+async function apiFeedbackResolve(body, ctx) {
+  checkAdmin({ key: body.key }, ctx);
+  const id = String(body.id || '').trim();
+  const status = String(body.status || '').trim();
+  if (!id) throw badRequest('缺少反馈编号');
+  const it = await FEEDBACK.setStatus(id, status, body.note);
+  if (!it) throw badRequest('反馈不存在，或状态不合法');
+  return { ok: true, id: it.id, status: it.status, statusText: feedback.STATUS_TEXT[it.status] };
+}
+
+/** 前端用：告诉页面有哪几种问题可以报（文案只在后端维护一份） */
+async function apiFeedbackKinds() {
+  return {
+    kinds: feedback.KINDS.map((k) => ({ key: k, text: feedback.KIND_TEXT[k] }))
+  };
+}
+
 /* ============================ 路由（框架无关） ============================ */
 function badRequest(msg) {
   const e = new Error(msg);
@@ -1064,6 +1403,8 @@ async function route(request, ctx) {
   try {
     if (pathname === '/api/menu' && method === 'GET') return json(200, await apiMenu());
     if (pathname === '/api/stats' && method === 'GET') return json(200, await apiStats());
+    if (pathname === '/api/feedback/kinds' && method === 'GET') return json(200, await apiFeedbackKinds());
+    if (pathname === '/api/feedback/list' && method === 'GET') return json(200, await apiFeedbackList(query, ctx));
     if (pathname === '/api/rate/status' && method === 'GET') return json(200, await apiRateStatus(query, ctx));
     if (pathname === '/api/board/canteen' && method === 'GET') return json(200, await apiBoardCanteen(query));
     if (pathname === '/api/board/all' && method === 'GET') return json(200, await apiBoardAll(query));
@@ -1082,6 +1423,36 @@ async function route(request, ctx) {
       return json(200, await apiRate(body, ctx));
     }
 
+    // 同学报菜单问题（只能新增，改不了任何数据）
+    if (pathname === '/api/feedback') {
+      if (method !== 'POST') return json(405, { error: '只支持 POST' });
+      let fbBody = {};
+      const rawFb = request.body || '';
+      if (rawFb) {
+        try {
+          fbBody = JSON.parse(rawFb);
+        } catch (e) {
+          throw badRequest('请求格式不是合法 JSON');
+        }
+      }
+      return json(200, await apiFeedbackCreate(fbBody, ctx));
+    }
+
+    // 管理员标记已处理（默认只有本机能调）
+    if (pathname === '/api/feedback/resolve') {
+      if (method !== 'POST') return json(405, { error: '只支持 POST' });
+      let rvBody = {};
+      const rawRv = request.body || '';
+      if (rawRv) {
+        try {
+          rvBody = JSON.parse(rawRv);
+        } catch (e) {
+          throw badRequest('请求格式不是合法 JSON');
+        }
+      }
+      return json(200, await apiFeedbackResolve(rvBody, ctx));
+    }
+
     return json(404, { error: '接口不存在: ' + pathname });
   } catch (err) {
     const code = err.status || 500;
@@ -1092,8 +1463,11 @@ async function route(request, ctx) {
 
 /** 本地服务器用：把 node:http 的 req/res 接到 router 上 */
 async function handleRequest(req, res) {
+  const socketIp = req.socket && req.socket.remoteAddress;
   const ctx = {
-    ip: clientIp(req.headers, req.socket && req.socket.remoteAddress),
+    ip: clientIp(req.headers, socketIp),
+    socketIp: socketIp,            // 环回判断要用原始 socket 地址
+    headers: req.headers || {},    // 判断是不是走隧道进来的
     date: beijingDate()
   };
 
@@ -1249,9 +1623,16 @@ module.exports = async function handler(event, context) {
   // —— Netlify / Lambda 风格：event 里带 httpMethod / path / headers / body ——
   if (event && typeof event === 'object' && (event.httpMethod || event.requestContext)) {
     const headers = event.headers || {};
-    const ip = (headers['x-forwarded-for'] || headers['client-ip'] || '').split(',')[0].trim()
+    // 云函数跑在公网：优先用边缘节点写的头（x-nf-client-connection-ip 是 Netlify 官方头，
+    // 客户端伪造不了），最后才退回 XFF。没有 socket，所以管理接口一律进不来。
+    const ip = String(
+      headers['cf-connecting-ip']
+      || headers['x-nf-client-connection-ip']
+      || headers['client-ip']
+      || (headers['x-forwarded-for'] || '').split(',')[0].trim()
       || (event.requestContext && event.requestContext.identity && event.requestContext.identity.sourceIp)
-      || 'unknown';
+      || 'unknown'
+    ).trim();
     // Netlify 的 event.path 不含 query，rawUrl 才含
     const path = event.rawUrl
       ? event.rawUrl.replace(/^https?:\/\/[^/]+/, '')
@@ -1262,7 +1643,7 @@ module.exports = async function handler(event, context) {
       : '';
 
     const out = await route({ method: event.httpMethod || 'GET', path, headers, body },
-      { ip, date: beijingDate() });
+      { ip, socketIp: 'unknown', headers, date: beijingDate() });
     return {
       statusCode: out.status,
       headers: out.headers,

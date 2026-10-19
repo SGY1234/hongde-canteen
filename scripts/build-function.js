@@ -23,6 +23,7 @@ const OUT = path.join(ROOT, 'netlify', 'functions', 'api.js');
 const MODULES = [
   { id: 'rankings', file: 'server/rankings.js' },
   { id: 'store', file: 'server/store.js' },
+  { id: 'feedback', file: 'server/feedback.js' },
   { id: 'local', file: 'server/local.js' }
 ];
 

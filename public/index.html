@@ -72,8 +72,37 @@
 
       <button class="btn-primary" id="btnSubmit" disabled>提交打分</button>
       <div class="form-msg" id="formMsg"></div>
+
+      <!-- 菜单有问题（认错菜名/价格/漏菜）时，同学从这里告诉我，我再去改 -->
+      <button class="fb-link" id="btnFeedback" type="button">菜单写错了？点这里告诉我</button>
     </div>
   </section>
+
+  <!-- ===== 问题反馈弹层（同学只提交，改不了任何数据） ===== -->
+  <div class="sheet-mask" id="fbMask" hidden>
+    <div class="sheet" id="fbSheet">
+      <div class="sheet-head">
+        <span class="sheet-title">报告菜单问题</span>
+        <button class="sheet-close" id="fbClose" type="button" aria-label="关闭">×</button>
+      </div>
+
+      <div class="sheet-body">
+        <div class="fb-dish" id="fbDishLine">这道菜：还没选</div>
+
+        <div class="field-label">哪里不对？</div>
+        <div class="fb-kinds" id="fbKinds"></div>
+
+        <div class="field-label">具体说明（必填）</div>
+        <textarea id="fbText" class="fb-text" maxlength="200"
+          placeholder="例如：实际卖 12 元 / 这菜早下架了 / 应该是「水饺」不是「蒸饺」"></textarea>
+        <div class="fb-count"><span id="fbCount">0</span>/200</div>
+
+        <button class="btn-primary" id="fbSubmit" type="button">提交给管理员</button>
+        <div class="form-msg" id="fbMsg"></div>
+        <div class="fb-tip">我不会直接改数据，是我看到后去核对、改菜单。<br>同一个问题一天最多报 2 次。</div>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== Tab 2: 单食堂榜单 ===== -->
   <section class="screen" id="screen-canteen">

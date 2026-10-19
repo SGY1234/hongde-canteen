@@ -377,6 +377,136 @@
     });
   }
 
+  /* ---------------- 问题反馈（同学只提交，改不了数据） ---------------- */
+  /**
+   * 为什么这么设计：菜单是拍照识别的，一定有错。但同学要是能直接改数据，
+   * 榜单就谁都能篡改了。所以这里只做"收集意见"——提交给我，我核对后改菜单。
+   */
+  var fb = { open: false, kind: '', kinds: [] };
+
+  /** 打开反馈弹层，自动带上当前选中的菜品 */
+  function openFeedback() {
+    var dish = state.dishId ? findDish(state.dishId) : null;
+    var stall = dish ? findStall(dish.stallId) : null;
+    var p = priceText(dish);
+
+    fb.open = true;
+    $('fbMask').hidden = false;
+    $('fbDishLine').textContent = dish
+      ? ('这道菜：' + (stall ? stallLabel(stall) + ' · ' : '') + dish.name + (p ? '　' + p : ''))
+      : '还没选菜品 —— 可以先在上面选好哪道菜，或者直接写清楚是哪家哪个菜';
+
+    // 没选菜时，"还有菜没录进来"和"其他问题"照样能报
+    $('fbMsg').textContent = '';
+    $('fbMsg').className = 'form-msg';
+    $('fbSubmit').disabled = false;
+    paintKinds();
+    // 手机上弹出键盘会挡住按钮，所以不自动聚焦，让同学先看清选项
+  }
+
+  function closeFeedback() {
+    fb.open = false;
+    $('fbMask').hidden = true;
+    $('fbText').value = '';
+    $('fbCount').textContent = '0';
+    fb.kind = '';
+    $('fbMsg').textContent = '';
+    $('fbMsg').className = 'form-msg';
+  }
+
+  /** 渲染问题类型按钮（文案由后端给，只维护一份） */
+  function paintKinds() {
+    var box = $('fbKinds');
+    box.innerHTML = '';
+    fb.kinds.forEach(function (k) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'fb-kind' + (fb.kind === k.key ? ' on' : '');
+      b.setAttribute('data-kind', k.key);
+      b.textContent = k.text;
+      box.appendChild(b);
+    });
+  }
+
+  function bindFeedback() {
+    $('btnFeedback').addEventListener('click', openFeedback);
+    $('fbClose').addEventListener('click', closeFeedback);
+    // 点遮罩空白处也能关（手机上很自然的手势）
+    $('fbMask').addEventListener('click', function (e) {
+      if (e.target === $('fbMask')) closeFeedback();
+    });
+
+    $('fbKinds').addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('.fb-kind') : null;
+      if (!b) return;
+      fb.kind = b.getAttribute('data-kind');
+      paintKinds();
+      $('fbMsg').textContent = '';
+      $('fbMsg').className = 'form-msg';
+    });
+
+    $('fbText').addEventListener('input', function () {
+      $('fbCount').textContent = String(this.value.length);
+    });
+
+    $('fbSubmit').addEventListener('click', submitFeedback);
+  }
+
+  function submitFeedback() {
+    if (!fb.kind) {
+      $('fbMsg').className = 'form-msg err';
+      $('fbMsg').textContent = '请先选一下哪里不对';
+      return;
+    }
+    var text = ($('fbText').value || '').trim();
+    if (!text) {
+      $('fbMsg').className = 'form-msg err';
+      $('fbMsg').textContent = '请简单写一句哪里不对（比如"实际卖 12 元"）';
+      return;
+    }
+
+    var btn = $('fbSubmit');
+    btn.disabled = true;
+    $('fbMsg').className = 'form-msg';
+    $('fbMsg').textContent = '提交中…';
+
+    api('/api/feedback', {
+      method: 'POST',
+      body: { kind: fb.kind, dishId: state.dishId || '', text: text }
+    }).then(function (data) {
+      btn.disabled = false;
+      $('fbMsg').className = 'form-msg ok';
+      $('fbMsg').textContent = '✓ ' + (data.message || '收到！');
+      toast('已提交，谢谢反馈');
+      setTimeout(closeFeedback, 1600);
+    }).catch(function (err) {
+      btn.disabled = false;
+      $('fbMsg').className = 'form-msg err';
+      $('fbMsg').textContent = err.status === 429
+        ? err.message
+        : ('提交失败：' + err.message);
+    });
+  }
+
+  /** 拉一次类型列表（后端改文案，前端不用动） */
+  function loadFeedbackKinds() {
+    api('/api/feedback/kinds').then(function (data) {
+      fb.kinds = (data && data.kinds) || [];
+      paintKinds();
+    }).catch(function () {
+      // 拿不到就用一套兜底文案，不能让按钮点开是空的
+      fb.kinds = [
+        { key: 'price', text: '价格不对' },
+        { key: 'name', text: '菜名写错了' },
+        { key: 'extra', text: '这家没这道菜' },
+        { key: 'missing', text: '还有菜没录进来' },
+        { key: 'stall', text: '档口/窗口写错了' },
+        { key: 'other', text: '其他问题' }
+      ];
+      paintKinds();
+    });
+  }
+
   /* ---------------- 榜单渲染 ---------------- */
   function refreshBoards() {
     loadCanteenBoard();
@@ -562,6 +692,8 @@
       bindStars();
       bindChips();
       bindTabs();
+      bindFeedback();
+      loadFeedbackKinds();
       paintStars(0);
 
       // 菜单接口里就带了这个标记，省一次请求
